@@ -1,0 +1,53 @@
+<div class="back">
+  <div class="flex-container">
+    <mat-card-content class="logContainer">
+      <img  style="margin-top: 30px;" height="180px" src="assets\KaraoTEC.svg" />
+
+      <mat-form-field class="form"  style="margin-top:-20px;">
+        <mat-label class="format">Usuario:</mat-label>
+        <input
+          matInput
+          class="in-form"
+          type="email"
+          placeholder="Correo electrónico"
+          [formControl]="name"
+          #userName
+          required
+        />
+
+        <mat-error class="val" *ngIf="name.invalid">{{ getErrorMessage() }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field  class="form" appearance="legacy">
+        <mat-label class="format">Contraseña:</mat-label>
+        <input
+          matInput
+          type="password"
+          class="in-form"
+          [formControl]="pass"
+          #userPassword
+          required
+        />
+        <mat-error class="val" *ngIf="pass.invalid">{{ getErrorMessage() }}</mat-error>
+     
+      </mat-form-field>
+
+      <button mat-button class="btn-login" (click)="emailSignIn(userName, userPassword)">
+        <h3>Iniciar sesión</h3>
+      </button>
+
+      <a class="singIn" routerLink="/auth/forgotPassword">
+        <h3>¿Olvidó su contraseña?</h3>
+      </a>
+    </mat-card-content>
+
+    <div class="pad">
+      <mat-card-content class="signContainer">
+        <h3>¿No tiene una cuenta? &nbsp;</h3>
+        <a class="singIn" routerLink="/auth/select">
+          <h3>Registrarse</h3>
+        </a>
+      </mat-card-content>
+    </div>
+  </div>
+</div>
