@@ -1,0 +1,88 @@
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.logContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 579px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 10px 4px 21px gray;
+  border-radius: 16px;
+  flex-direction: column;
+  justify-content: space-around;
+
+
+}
+
+
+
+.signContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  width: 579px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 10px 4px 21px lightgrey;
+  border-radius: 16px;
+  line-height: 20px;
+  color: gray;
+
+}
+
+.singIn {
+  color: #42448f;
+  line-height: 23px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  height: 55px;
+  width: 400px;
+  line-height: 15px;
+  margin-top: 20px;
+   margin-bottom: 20px;
+}
+
+.format {
+  margin-left: 35px;
+  padding-top: 5px;
+  color: #42448f;
+}
+
+.in-form {
+  display: flex;
+  width: 200px;
+  margin-left: 35px;
+  padding-top: 5px;
+  border: 0;
+}
+
+.val {
+  display: flex;
+  margin-left: 35px;
+  padding-top: 15px;
+  color: red;
+}
+
+
+.pad {
+  padding-top: 25px;
+}
+
+.btn-login {
+  width: 400px;
+  height: 63px;
+  border-radius: 100px;
+  background: #42448f;
+  color: white;
+}
