@@ -1,0 +1,27 @@
+.example-card{
+  width: 210px !important;
+  text-align: center;
+  background-color: white;
+  margin-left: 13px;
+  margin-bottom: 10px;
+
+}
+.cont{
+  width: 95vw;
+}
+.example-form{
+  height:40px;
+  width: 200px;
+  background-color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+}
+.column{
+  display: flex;
+  flex-direction: column;
+    width: 200px;
+}
