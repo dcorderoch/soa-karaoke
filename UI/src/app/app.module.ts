@@ -15,7 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 
 
@@ -39,7 +39,8 @@ import { FormsModule } from '@angular/forms';
      MatInputModule,
      MatIconModule,
      FormsModule,
-     BrowserAnimationsModule
+     BrowserAnimationsModule,
+     FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
