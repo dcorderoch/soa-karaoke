@@ -1,1 +1,22 @@
-<p>songs works!</p>
+ <div class="example-viewport">
+  <div fxLayout="row" fxLayoutAlign="end center" >
+  <mat-card  class="example-form"  fxLayout="row" fxLayoutAlign="end center">
+  <form >
+  <mat-form-field class="example-full-width"  appearance="legacy">
+    <input matInput placeholder="Buscar">
+  </mat-form-field>
+</form>
+</mat-card>
+</div>
+ <div fxLayout="row wrap" >
+<mat-card class="example-card"   fxLayout="column" *ngFor="let song of songs" >
+
+  <img mat-card-image  height="100px" style="margin-top:10px;" src="assets/song.svg" alt="Song">
+  <mat-card-content>
+    <p>
+      {{song.title}} - {{song.artist}}
+    </p>
+  </mat-card-content>
+</mat-card>
+</div>
+</div>
