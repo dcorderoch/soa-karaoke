@@ -1,0 +1,31 @@
+::ng-deep .mat-accent .mat-slider-track-fill {
+  background-color: black !important;
+}
+::ng-deep .mat-slider{
+  width: 300px;
+}  
+::ng-deep .mat-slider-thumb-label {
+  background-color: black !important;
+}
+::ng-deep .mat-slider-thumb {
+  background-color: black !important;
+}
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 95vh ;
+}
+.logContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 579px;
+  background-color: rgba(223,241,251, 0.9);
+  box-shadow: 10px 4px 21px gray;
+  border-radius: 16px;
+  flex-direction: column;
+  justify-content: space-around;
+}

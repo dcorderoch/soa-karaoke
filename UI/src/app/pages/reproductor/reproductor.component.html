@@ -1,1 +1,36 @@
-<p>reproductor works!</p>
+<div class="back">
+  <div class="flex-container">
+    <mat-card-content class="logContainer">
+      <div fxLayout="row" fxLayoutAlign="start start">
+        <h1>{{ song.title }} - {{ song.artist }}</h1>
+      </div>
+      <div style="text-align: center;">
+        <h2 style="color:rgba(163, 73, 164, 0.9);">{{ lineB }}</h2>
+        <h1 style="color:purple;">{{ lineA }}</h1>
+        <h2 style="color:rgba(163, 73, 164, 0.9);">{{ lineD }}</h2>
+        <h3 style="color:rgba(163, 73, 164, 0.9);">{{ lineDD }}</h3>
+      </div>
+      <div class="duration">
+        <div fxLayout="row" fxLayoutAlign="space-around center" class="playerContainer" >
+          <button mat-button class="btnplaypause" (click)="handleAudioPlayPause()">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">{{ buttonText }}
+            </mat-icon> 
+          </button>
+          <mat-slider
+            [max]="audio.duration"
+            [min]="0"
+            [(ngModel)]="audio.currentTime"
+            [disabled]="false"
+            (input)="changeTime($event)"
+           >
+          </mat-slider>
+          <div class="duration">
+            <span>{{ currentTime }}</span>
+            <span class="duration-divider">|</span>
+            <span>{{ duration }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </div>
+</div>
