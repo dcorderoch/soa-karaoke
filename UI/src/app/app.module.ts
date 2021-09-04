@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+import {MatSliderModule} from '@angular/material/slider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,7 +42,9 @@ import { FormsModule } from '@angular/forms';
      MatIconModule,
      FormsModule,
      BrowserAnimationsModule,
-     FlexLayoutModule
+     FlexLayoutModule,
+     HttpModule,
+     MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
