@@ -30,16 +30,20 @@ def get_all_songs():
 
 @app.route('/songs', methods=['POST'])
 def add_star():
-  songs = mongo.db.songs
-  name = request.json['name']
-  file = request.json['file']
-  lyric = request.json['lyric']
-  artist = request.json['artist']
-  album= request.json['album']
-  songs.insert_one({'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album})
-  upload_blob("soa_proyecto1",request.json['file'],request.json['name'])
-  upload_blob("soa_proyecto1",request.json['lyric'],request.json['name']+"_Lyric")
-  return jsonify({'error': False,'message':'Successful insert'})
+  try:
+      songs = mongo.db.songs
+      name = request.json['name']
+      file = request.json['file']
+      lyric = request.json['lyric']
+      artist = request.json['artist']
+      album= request.json['album']
+      songs.insert_one({'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album})
+      upload_blob("soa_proyecto1",request.json['file'],request.json['name'])
+      upload_blob("soa_proyecto1",request.json['lyric'],request.json['name']+"_Lyric")
+      return jsonify({'error': False,'message':'Successful insert'})
+  except:
+      return jsonify({'error': True, 'message': 'Error saving song'})
+
 
 @app.route('/songs/<name>', methods=['GET'])
 def get_one_star(name):
