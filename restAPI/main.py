@@ -15,7 +15,11 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
     blob.upload_from_filename(source_file_name)
-
+def download_blob(bucket_name, source_blob_name, destination_file_name):
+    storage_client = storage.Client.from_service_account_json("Key/calcium-branch-324922-75e2e2b8d30e.json")
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(source_blob_name)
+    blob.download_to_filename(destination_file_name)
 @app.route('/songs', methods=['GET'])
 def get_all_songs():
   songs = mongo.db.songs
@@ -37,6 +41,23 @@ def add_star():
   upload_blob("soa_proyecto1",request.json['lyric'],request.json['name']+"_Lyric")
   return jsonify({'error': False,'message':'Successful insert'})
 
+@app.route('/songs/<name>', methods=['GET'])
+def get_one_star(name):
+  songs = mongo.db.songs
+  song = songs.find_one({'name' : name})
+  name = song['name']
+  file = song['file']
+  lyric = song['lyric']
+  artist = song['artist']
+  album = song['album']
+  if song:
+      output={'name': name, 'lyric': lyric, 'file': file, 'artist': artist, 'album': album}
+      download_blob("soa_proyecto1",name,"Songs/"+name+".mp3")
+      download_blob("soa_proyecto1",name+"_Lyric","Lyrics/"+name+"_Lyric.lrc")
+
+  else:
+    output = "No such name"
+  return jsonify({'result' : output})
 
 if __name__ == "__main__":
     app.run()
