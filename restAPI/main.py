@@ -2,7 +2,7 @@ from google.cloud import storage
 from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 from flask_pymongo import PyMongo
-
+from bson.objectid import ObjectId
 app = Flask(__name__)
 cors = CORS(app)
 app.config['MONGO_DBNAME'] = 'SOA'
@@ -25,11 +25,12 @@ def get_all_songs():
   songs = mongo.db.songs
   output = []
   for s in songs.find():
-    output.append({'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album']})
+    id=str(s['_id'])
+    output.append({'id' :id ,'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album']})
   return jsonify({'songs' : output})
 
 @app.route('/songs', methods=['POST'])
-def add_star():
+def add_song():
   try:
       songs = mongo.db.songs
       name = request.json['name']
@@ -44,9 +45,53 @@ def add_star():
   except:
       return jsonify({'error': True, 'message': 'Error saving song'})
 
+@app.route('/register', methods=['POST'])
+def register():
+  try:
+      users = mongo.db.users
+      userName = request.json['userName']
+      user = users.find_one({'userName': userName})
+      if user:
+          return jsonify({'error': True, 'message': 'UserName already exists'})
+      password = request.json['password']
+      users.insert_one({'userName': userName, 'password': password, 'isPremium':False})
+      return jsonify({'error': False,'message':'Successful insert'})
+  except:
+      return jsonify({'error': True, 'message': 'Error user register'})
 
+@app.route('/updatePremium', methods=['PUT'])
+def updatePremium():
+  try:
+      users = mongo.db.users
+      userName = request.json['userName']
+      filter = {'userName': userName}
+      newvalues = {"$set": {'isPremium': True}}
+
+      users.update_one(filter, newvalues)
+      return jsonify({'error': False,'message':'Successful insert'})
+  except:
+      return jsonify({'error': True, 'message': 'Error user register'})
+
+
+@app.route('/songs', methods=['PUT'])
+def updateSong():
+  try:
+      songs = mongo.db.songs
+      name = request.json['name']
+      file = request.json['file']
+      lyric = request.json['lyric']
+      artist = request.json['artist']
+      album = request.json['album']
+      id = request.json['id']
+      filter = {'_id': ObjectId(id)}
+      newvalues = {"$set": {'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album}}
+
+      songs.update_one(filter, newvalues)
+      return jsonify({'error': False,'message':'Successful update'})
+  except:
+      return jsonify({'error': True, 'message': 'Error update song'})
 @app.route('/songs/<name>', methods=['GET'])
-def get_one_star(name):
+def get_one_song(name):
   songs = mongo.db.songs
   song = songs.find_one({'name' : name})
   name = song['name']
@@ -54,8 +99,9 @@ def get_one_star(name):
   lyric = song['lyric']
   artist = song['artist']
   album = song['album']
+  id = str(song['_id'])
   if song:
-      output={'name': name, 'lyric': lyric, 'file': file, 'artist': artist, 'album': album}
+      output={'id':id,'name': name, 'lyric': lyric, 'file': file, 'artist': artist, 'album': album}
       download_blob("soa_proyecto1",name,"Songs/"+name+".mp3")
       download_blob("soa_proyecto1",name+"_Lyric","Lyrics/"+name+"_Lyric.lrc")
 
