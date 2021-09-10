@@ -29,6 +29,16 @@ def get_all_songs():
     output.append({'id' :id ,'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album']})
   return jsonify({'songs' : output})
 
+@app.route('/songs/filter', methods=['GET'])
+def get_filtered_songs():
+  songs = mongo.db.songs
+  output = []
+  by =request.json['by']
+  value = request.json['value']
+  for s in songs.find({by:value}):
+    id=str(s['_id'])
+    output.append({'id' :id ,'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album']})
+  return jsonify({'songs' : output})
 @app.route('/songs', methods=['POST'])
 def add_song():
   try:
@@ -60,7 +70,7 @@ def register():
       return jsonify({'error': True, 'message': 'Error user register'})
 
 @app.route('/updatePremium', methods=['PUT'])
-def updatePremium():
+def upgradePremium():
   try:
       users = mongo.db.users
       userName = request.json['userName']
@@ -68,9 +78,9 @@ def updatePremium():
       newvalues = {"$set": {'isPremium': True}}
 
       users.update_one(filter, newvalues)
-      return jsonify({'error': False,'message':'Successful insert'})
+      return jsonify({'error': False,'message':'Successful upgrade to premium'})
   except:
-      return jsonify({'error': True, 'message': 'Error user register'})
+      return jsonify({'error': True, 'message': 'Error user upgrade'})
 
 
 @app.route('/songs', methods=['PUT'])
@@ -89,7 +99,18 @@ def updateSong():
       songs.update_one(filter, newvalues)
       return jsonify({'error': False,'message':'Successful update'})
   except:
-      return jsonify({'error': True, 'message': 'Error update song'})
+      return jsonify({'error': True, 'message': 'Error updating song'})\
+
+@app.route('/songs', methods=['DELETE'])
+def deleteSong():
+  try:
+      songs = mongo.db.songs
+      id = request.json['id']
+      filter = {'_id': ObjectId(id)}
+      songs.delete_one(filter)
+      return jsonify({'error': False,'message':'Successful delete'})
+  except:
+      return jsonify({'error': True, 'message': 'Error deleting song'})
 @app.route('/songs/<name>', methods=['GET'])
 def get_one_song(name):
   songs = mongo.db.songs
