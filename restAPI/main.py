@@ -3,6 +3,7 @@ from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+import datetime
 app = Flask(__name__)
 cors = CORS(app)
 app.config['MONGO_DBNAME'] = 'SOA'
@@ -19,7 +20,12 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
     storage_client = storage.Client.from_service_account_json("Key/calcium-branch-324922-75e2e2b8d30e.json")
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(source_blob_name)
-    blob.download_to_filename(destination_file_name)
+    url = blob.generate_signed_url(
+        version="v4",
+        expiration=datetime.timedelta(minutes=150),
+        method="GET",
+    )
+    return url
 @app.route('/songs', methods=['GET'])
 def get_all_songs():
   songs = mongo.db.songs
@@ -115,16 +121,11 @@ def deleteSong():
 def get_one_song(name):
   songs = mongo.db.songs
   song = songs.find_one({'name' : name})
-  name = song['name']
-  file = song['file']
-  lyric = song['lyric']
-  artist = song['artist']
-  album = song['album']
   id = str(song['_id'])
   if song:
-      output={'id':id,'name': name, 'lyric': lyric, 'file': file, 'artist': artist, 'album': album}
-      download_blob("soa_proyecto1",name,"Songs/"+name+".mp3")
-      download_blob("soa_proyecto1",name+"_Lyric","Lyrics/"+name+"_Lyric.lrc")
+      song=download_blob("soa_proyecto1",name,"Songs/"+name+".mp3")
+      lyric=download_blob("soa_proyecto1",name+"_Lyric","Lyrics/"+name+"_Lyric.lrc")
+      output={'song':song,'lyric': lyric}
 
   else:
     output = "No such name"
