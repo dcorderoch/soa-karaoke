@@ -1,1 +1,59 @@
-<p>edit works!</p>
+<form class="left-right" [formGroup]="infForm" #idForm (ngSubmit)="onSubmited()">
+  <div class="contForm">
+    <div class="left">
+      <div class="fill">
+        <label class="item"> Nombre de la canción</label>
+        <textarea
+          required
+          rows="1"
+          maxlength="75"
+          class="textarea-short"
+          formControlName="name"
+        ></textarea>
+
+      </div>
+      <div class="fill">
+        <label class="item"> Artista </label>
+        <textarea
+          required
+          class="textarea-short"
+          rows="1"
+          formControlName="artista"
+        ></textarea>
+      
+      </div>
+      <div class="fill">
+        <label class="item"> Albúm </label>
+        <textarea
+          required
+          class="textarea-short"
+          rows="1"
+          formControlName="album"
+        ></textarea>
+        
+      </div>
+    </div>
+    <div class="right">
+      <div class="fill" style="margin-top:20px">
+        <label class="item"> Seleccione la letra de la canción (Archivo .lrc). </label>
+        <input
+          type="file"
+        
+        />
+      </div>
+      <div class="fill" style="margin-top:20px; margin-bottom: 20px;">
+        <label class="item">
+          Seleccione el archivo .mp3 del la canción.
+        </label>
+        <input
+          type="file"
+
+        />
+      </div>
+      <div class="submit-button-container">
+        <button mat-button [disabled]="!infForm.valid" class="save-button">Guardar cambios</button>
+        <!-- <button mat-button [disabled]="!infForm.valid" class="exit-button">Salir</button> -->
+      </div>
+    </div>
+  </div>
+</form>

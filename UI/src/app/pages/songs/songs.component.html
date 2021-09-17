@@ -1,12 +1,17 @@
  <div class="example-viewport">
-  <div fxLayout="row" fxLayoutAlign="end center" >
-  <mat-card  class="example-form"  fxLayout="row" fxLayoutAlign="end center">
+  <div fxLayout="row" fxLayoutAlign="end center" > 
+   
+  <mat-card  class="example-form"  fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px;margin-top: 10px;">
+
   <form >
   <mat-form-field class="example-full-width"  appearance="legacy">
     <input matInput placeholder="Buscar">
   </mat-form-field>
 </form>
 </mat-card>
+ <a href="/add" mat-raised-button><mat-icon aria-hidden="false" aria-label="Example home icon">
+add
+</mat-icon></a>
 </div>
  <div fxLayout="row wrap" >
 <mat-card class="example-card"   fxLayout="column" *ngFor="let song of songs" >

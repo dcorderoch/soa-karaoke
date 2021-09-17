@@ -1,0 +1,205 @@
+.left-right {
+  width: 80%;
+  background-color: rgba(223,241,251, 0.9);
+  margin-left: 10%;
+  border-radius: 15px;
+  margin-top: 20px;
+
+  
+}
+.title {
+    font-size: 25px;
+    color: blue;
+    padding: 20px 0 0 80px;
+  }
+  .contForm {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+
+.left {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding: 0px 10px 20px 80px;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+.right {
+  margin-top: 20px;
+  width: 50%;
+  padding: 0px 10px 20px 80px;
+  box-sizing: border-box;
+    justify-content: space-between;
+
+}
+
+@media only screen and (max-height: 600px) {
+  .left {
+    padding-top: 160px;
+  }
+  .right {
+    padding-top: 190px;
+  }
+}
+
+.item {
+  padding: 10px 0;
+  display: block;
+}
+
+.no-required {
+  color: blue;
+}
+
+.required {
+  font-size: 10px;
+  font-weight: bold;
+  color: red !important;
+}
+
+input[type="text"] {
+  height: 30px;
+  width: 75%;
+  display: block;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: solid;
+  border-bottom-color: gray;
+  background-color: transparent;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+
+
+input[type="text"]:focus {
+  outline: none;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: solid;
+  border-bottom-color: blue;
+}
+
+input[type="text"]:hover {
+  width: 75%;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: solid;
+  border-bottom-color: blue;
+  background-color: transparent;
+}
+
+.fill {
+  padding: 0px 0;
+}
+
+textarea {
+  border-radius: 10px;
+  min-width: 75%;
+  border-style: solid;
+  background-color: rgba(255,255,255, 0.8);
+  border-color: black;
+  margin-bottom: 10px;
+  padding: 5px;
+  resize: none;
+  vertical-align: middle;
+}
+
+
+
+textarea:hover {
+  width: 75%;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: solid;
+  border-bottom-color: black;
+  background-color: transparent;
+}
+
+.textarea-short {
+  font-size: 20px;
+  height: 40px;
+  line-height: 40px;
+}
+
+
+.radio-label {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  position: relative;
+  display: block;
+
+}
+
+.submit-button-container {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  //margin-top: 10px;
+  //align-items: center;
+  //justify-content: center;
+}
+
+@media only screen and (min-width: 1400px) {
+  .submit-button-container {
+    width: 95%;
+  }
+}
+
+@media only screen and (min-width: 1700px) {
+  .submit-button-container {
+    width: 75%;
+  }
+}
+
+.save-button {
+  border-radius: 25px;
+  width: 190px;
+  margin: 10px;
+  font-weight: 400;
+  font-size: 15px;
+  background-color: red;
+  color: white !important;
+  //border: none;
+  //height: 60px;
+  //padding: 8px 10px;
+  //cursor: pointer;
+ 
+}
+
+
+
+.exit-button {
+  border-radius: 25px;
+  height: 60px;
+  width: 190px;
+  margin: 10px;
+  padding: 8px 10px;
+  font-weight: 400;
+  font-size: 15px;
+  border-style: solid;
+  border-color: blue;
+  background-color: transparent;
+  color: blue;
+  //cursor: pointer;
+ 
+}
+
+.areasContainer {
+  width: 80%;
+}
+
+.areasInput {
+  width: 100%;
+}
