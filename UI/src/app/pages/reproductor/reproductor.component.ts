@@ -16,7 +16,6 @@ export interface LineLRC {
   styleUrls: ['./reproductor.component.css']
 })
 export class ReproductorComponent implements OnInit {
-    private timeSubscription = new Subscription();
 id: any;
 lyrics: any;
 lines: LineLRC[] = [];
