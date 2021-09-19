@@ -22,7 +22,7 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
     blob = bucket.blob(source_blob_name)
     url = blob.generate_signed_url(
         version="v4",
-        expiration=datetime.timedelta(minutes=150),
+        expiration=datetime.timedelta(days=7),
         method="GET",
     )
     return url
