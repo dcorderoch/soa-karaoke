@@ -131,6 +131,22 @@ def get_one_song(name):
     output = "No such name"
   return jsonify({'result' : output})
 
+@app.route('/setCORS', methods=['GET'])
+def cors_configuration():
+    storage_client = storage.Client.from_service_account_json("Key/calcium-branch-324922-75e2e2b8d30e.json")
+    bucket = storage_client.bucket("soa_proyecto1")
+    bucket.cors = [
+        {
+            "origin": ["*"],
+            "responseHeader": [
+                "Content-Type",
+                "x-goog-resumable"],
+            "method": ['PUT', 'POST','GET','DELETE'],
+            "maxAgeSeconds": 3600000
+        }
+    ]
+    bucket.patch()
+    return jsonify({'result': "CORS active"})
 if __name__ == "__main__":
     app.run()
 
