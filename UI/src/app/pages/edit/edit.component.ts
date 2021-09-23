@@ -43,6 +43,10 @@ export class EditComponent implements OnInit {
 
   onSubmited(){
     console.log(this.infForm.value);
+
+  constructor() { }
+
+  ngOnInit(): void {
   }
 
 }

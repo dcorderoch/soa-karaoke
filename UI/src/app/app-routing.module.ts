@@ -12,6 +12,7 @@ const routes: Routes = [{
   component: AddComponent
 },
 {
+
   path: 'login',
   component: LoginComponent
 },
