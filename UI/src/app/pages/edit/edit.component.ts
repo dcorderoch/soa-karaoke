@@ -14,6 +14,7 @@ export class EditComponent implements OnInit {
   artista;
   album;
   id;
+  mp3;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
@@ -32,7 +33,7 @@ export class EditComponent implements OnInit {
       album: new FormControl(this.album, [
         Validators.required,
         this.noWhitespaceValidator
-      ]),
+      ])
     });
   }
   public noWhitespaceValidator(control: FormControl) {
@@ -43,6 +44,10 @@ export class EditComponent implements OnInit {
 
   onSubmited(){
     console.log(this.infForm.value);
+  }
+  getMp3(event){
+  console.log(this.mp3);
+
   }
 
 }

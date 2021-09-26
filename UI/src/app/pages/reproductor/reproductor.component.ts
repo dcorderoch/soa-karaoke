@@ -4,6 +4,8 @@ import { ReproductorService } from 'src/app/services/reproductor.service';
 import { Observable, Subscription } from 'rxjs';
 import { fromEvent } from 'rxjs';
 import { Http, Response } from '@angular/http';
+import { SongService } from 'src/app/services/song.service';
+
 import LRC from 'lrc.js';
 export interface LineLRC {
   text: string;
@@ -29,21 +31,22 @@ lineD = '';
 lineDD = '';
 duration = '00:00';
 audio = new Audio();
-song: any;
-  constructor(private http: Http,
+song: any= '';
+  constructor(public songService: SongService,
+    private http: Http,
               private activatedRoute: ActivatedRoute,
               private reproductorService: ReproductorService) { }
 
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.song = {
-      title: 'Bohemian Rhapsody',
-      artist: 'Queen',
-      id: 1
-    };
-    this.audio = new Audio('assets/songs/bohemian-rhapsody/bohemian-rhapsody.mp3');
+     this.songService.getSong(this.id ).subscribe(res => {
+        this.song =  res.json().result;
+        console.log(this.song);
+    }
+    );
+    this.audio = new Audio(this.song.song);
     this.http
-      .get('assets/songs/bohemian-rhapsody/bohemian-rhapsody.lrc')
+      .get(this.song.lyric)
       .subscribe((response: Response) => {
         this.processLyrics(response.text());
       });

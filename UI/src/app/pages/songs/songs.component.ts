@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { SongService } from 'src/app/services/song.service';
+import { Router } from '@angular/router';
+import { Filter } from 'src/app/models/filter';
 
 @Component({
   selector: 'app-songs',
@@ -6,30 +9,36 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./songs.component.css']
 })
 export class SongsComponent implements OnInit {
-  songs = [ {
-    title: 'Love of my life',
-    artist: 'Queen',
-    id: 1
-  },
-  {
-    title: 'Aerials',
-    artist: 'System of a down',
-    id: 2
-  },
-  {
-    title: 'Scorpions',
-    artist: 'Wind of change',
-    id: 3
-  },
-  {
-    title: 'Bed of roses',
-    artist: 'Bon Jovi',
-    id: 4
-  }
-  ];
-  constructor() { }
+  songs;
+  filtro;
+  value;
+  constructor(    private router: Router,
+public songService: SongService) { }
 
   ngOnInit(): void {
+    this.songService.getSongs().subscribe(res => {
+        this.songs =  Array.of(res.json())[0].songs;
+    }
+    );
+
+  }
+  viewSong(id){
+    console.log(id);
+    let url = 'song/' + id;
+    this.router.navigate([url]);
+
+  }
+
+  getFilter(){
+    const body: Filter = {
+      value: this.value,
+      by: this.filtro
+    };
+    this.songService.getFilteredSongs(body).subscribe(res => {
+        this.songs =  Array.of(res.json())[0].songs;
+        console.log(this.songs);
+    }
+    );
   }
 
 }

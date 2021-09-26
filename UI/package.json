@@ -23,6 +23,7 @@
     "@angular/platform-browser": "~11.2.4",
     "@angular/platform-browser-dynamic": "~11.2.4",
     "@angular/router": "~11.2.4",
+    "@google-cloud/storage": "^5.14.3",
     "jquery": "^3.6.0",
     "lrc.js": "^1.0.2",
     "rxjs": "~6.6.0",

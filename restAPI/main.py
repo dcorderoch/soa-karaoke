@@ -35,12 +35,10 @@ def get_all_songs():
     output.append({'id' :id ,'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album']})
   return jsonify({'songs' : output})
 
-@app.route('/songs/filter', methods=['GET'])
-def get_filtered_songs():
+@app.route('/songs/filter/<by>/<value>', methods=['GET'])
+def get_filtered_songs(by,value):
   songs = mongo.db.songs
   output = []
-  by =request.json['by']
-  value = request.json['value']
   for s in songs.find({by:value}):
     id=str(s['_id'])
     output.append({'id' :id ,'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album']})
@@ -122,10 +120,12 @@ def get_one_song(name):
   songs = mongo.db.songs
   song = songs.find_one({'name' : name})
   id = str(song['_id'])
+  artist = str(song['artist'])
+  album = str(song['album'])
   if song:
       song=download_blob("soa_proyecto1",name,"Songs/"+name+".mp3")
       lyric=download_blob("soa_proyecto1",name+"_Lyric","Lyrics/"+name+"_Lyric.lrc")
-      output={'song':song,'lyric': lyric}
+      output={'song':song,'lyric': lyric,'name' : name,'id' : id,'artist':artist,'album':album}
 
   else:
     output = "No such name"

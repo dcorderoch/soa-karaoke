@@ -19,6 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
+import {MatRadioModule} from '@angular/material/radio';
+import { RegisterComponent } from './auth/register/register.component';
 
 
 
@@ -29,7 +31,8 @@ import { FormsModule } from '@angular/forms';
     SongsComponent,
     EditComponent,
     AddComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { FormsModule } from '@angular/forms';
      BrowserAnimationsModule,
      FlexLayoutModule,
      HttpModule,
-     MatSliderModule
+     MatSliderModule,
+     MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

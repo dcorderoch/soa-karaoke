@@ -1,8 +1,12 @@
 <div class="back">
+  <a mat-button href="/songs" >
+    <mat-icon style="font-size: 45px;" color="accent"> arrow_back </mat-icon>
+  </a>
   <div class="flex-container">
+    
     <mat-card-content class="logContainer">
       <div fxLayout="row" fxLayoutAlign="start start">
-        <h1>{{ song.title }} - {{ song.artist }}</h1>
+        <h1>{{ song.name }} - {{ song.artist }}</h1>
       </div>
       <div style="text-align: center;">
         <h2 style="color:rgba(163, 73, 164, 0.9);">{{ lineB }}</h2>

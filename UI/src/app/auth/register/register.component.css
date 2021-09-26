@@ -1,0 +1,86 @@
+.back {
+  width: 100%;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+}
+
+.regContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 520px;
+  width: 579px;
+  background: rgba(223,241,251, 0.9);
+  box-shadow: 10px 4px 21px gray;
+  border-radius: 16px;
+  flex-direction: column;
+}
+
+.regContainer {
+  justify-content: space-around;
+}
+
+.logContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  width: 579px;
+  background: rgba(223,241,251, 0.9);
+  box-shadow: 10px 4px 21px gray;
+  border-radius: 16px;
+  line-height: 23px;
+  color: grey;
+}
+
+.term {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  color: #42448f;
+}
+
+.format {
+  margin-left: 35px;
+  padding-top: 5px;
+  color: #42448f;
+}
+
+.in-form {
+  display: flex;
+  width: 335px;
+  margin-left: 35px;
+  padding-top: 5px;
+}
+
+.val {
+  display: flex;
+  margin-left: 35px;
+  padding-top: 15px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #42448f;
+  border-radius: 43px;
+  height: 63px;
+  width: 400px;
+  line-height: 16px;
+}
+
+
+.btn {
+  width: 400px;
+  height: 63px;
+  border-radius: 100px;
+  background: #42448f;
+  color: white;
+}

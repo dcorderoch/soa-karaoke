@@ -1,0 +1,52 @@
+<div class="back">
+  <div class="flex-container">
+    <mat-card-content class="regContainer">
+      <img  style="margin-top: 30px;" height="180px" src="assets\KaraoTEC.svg" />
+
+      <mat-form-field  class="form">
+        <mat-label class="format">Nombre de usuario:</mat-label>
+        <input
+          matInput
+          class="in-form"
+          type="email"
+          placeholder="pat@example.com"
+          [formControl]="name"
+          #userName
+          required
+        />
+        <mat-error class="val" >Campo requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field  class="form">
+        <mat-label class="format">Contraseña:</mat-label>
+        <input
+          matInput
+          class="in-form"
+          [formControl]="pass"
+          #userPassword
+          required
+          type="password"
+        />
+        <mat-error class="val" > Campo requerido</mat-error>
+
+      </mat-form-field>
+
+     
+
+     
+
+      <button mat-button class="btn" (click)="register(userName, userPassword)">
+        <h3>Registrarse</h3>
+      </button>
+    </mat-card-content>
+
+    <div class="pad">
+      <mat-card-content class="logContainer">
+        <h3>¿Tiene una cuenta? &nbsp;</h3>
+        <a class="term" routerLink="/auth/login">
+          <h3>Iniciar sesión</h3>
+        </a>
+      </mat-card-content>
+    </div>
+  </div>
+</div>

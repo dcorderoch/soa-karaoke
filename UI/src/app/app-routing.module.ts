@@ -5,6 +5,7 @@ import { SongsComponent } from './pages/songs/songs.component';
 import { ReproductorComponent } from './pages/reproductor/reproductor.component';
 import { EditComponent } from './pages/edit/edit.component';
 import { AddComponent } from './pages/add/add.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 
 const routes: Routes = [{
@@ -26,7 +27,20 @@ const routes: Routes = [{
 {
   path: 'edit/:id',
   component: EditComponent
-}];
+},
+{
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
+    path: '**',
+    redirectTo: 'login'
+  },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

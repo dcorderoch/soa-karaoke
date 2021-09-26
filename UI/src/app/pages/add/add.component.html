@@ -36,17 +36,19 @@
     <div class="right">
       <div class="fill" style="margin-top:20px">
         <label class="item"> Seleccione la letra de la canción (Archivo .lrc). </label>
-        <input
+        <input 
           type="file"
-        
+          name="lyric"
+          (change)="file2($event)"
         />
       </div>
       <div class="fill" style="margin-top:20px; margin-bottom: 20px;">
         <label class="item">
           Seleccione el archivo .mp3 del la canción.
         </label>
-        <input
+        <input 
           type="file"
+(change)="file($event)"          name="mp3"
 
         />
       </div>
