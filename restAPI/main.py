@@ -4,6 +4,10 @@ from flask_cors import CORS
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import datetime
+import  base64
+import time
+import os
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['MONGO_DBNAME'] = 'SOA'
@@ -11,11 +15,26 @@ app.config['MONGO_URI'] = 'mongodb+srv://soa:SOA123@soa.5dx1v.mongodb.net/SOA'
 
 mongo = PyMongo(app)
 
-def upload_blob(bucket_name, source_file_name, destination_blob_name):
+def upload_blob(bucket_name, file,lyric, file_name,lyric_name):
     storage_client = storage.Client.from_service_account_json("Key/calcium-branch-324922-75e2e2b8d30e.json")
     bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(destination_blob_name)
-    blob.upload_from_filename(source_file_name)
+    blob = bucket.blob(file_name)
+    image_64_decode = base64.b64decode(file)
+    image_result = open('Temp/temp.mp3', 'wb')
+    image_result.write(image_64_decode)
+    image_result.close()
+    blob.upload_from_filename('Temp/temp.mp3')
+
+    blob = bucket.blob(lyric_name)
+    image_64_decode = base64.b64decode(lyric)
+    image_result = open('Temp/temp.lrc', 'wb')
+    image_result.write(image_64_decode)
+    image_result.close()
+    blob.upload_from_filename('Temp/temp.lrc')
+    os.remove('Temp/temp.lrc')
+    os.remove('Temp/temp.mp3')
+
+
 def download_blob(bucket_name, source_blob_name, destination_file_name):
     storage_client = storage.Client.from_service_account_json("Key/calcium-branch-324922-75e2e2b8d30e.json")
     bucket = storage_client.bucket(bucket_name)
@@ -50,13 +69,13 @@ def add_song():
       name = request.json['name']
       file = request.json['file']
       lyric = request.json['lyric']
-      artist = request.json['artist']
-      album= request.json['album']
-      songs.insert_one({'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album})
-      upload_blob("soa_proyecto1",request.json['file'],request.json['name'])
-      upload_blob("soa_proyecto1",request.json['lyric'],request.json['name']+"_Lyric")
+      #artist = request.json['artist']
+      #album= request.json['album']
+      #songs.insert_one({'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album})
+      upload_blob("soa_proyecto1",request.json['file'],request.json['lyric'],request.json['name'],request.json['name']+"_Lyric")
       return jsonify({'error': False,'message':'Successful insert'})
-  except:
+  except Exception as e:
+      print(e)
       return jsonify({'error': True, 'message': 'Error saving song'})
 
 @app.route('/register', methods=['POST'])
