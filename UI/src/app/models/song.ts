@@ -1,9 +1,9 @@
 export class Song {
   name: string;
-  file: string;
+  file: any;
   album: string;
   artist: string;
-  lyric: string;
+  lyric: any;
 
   constructor() {
     this.name = '';

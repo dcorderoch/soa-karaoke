@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { fromEvent } from 'rxjs';
 import { Http, Response } from '@angular/http';
 import { SongService } from 'src/app/services/song.service';
+import Swal from 'sweetalert2'
 
 import LRC from 'lrc.js';
 export interface LineLRC {
@@ -42,18 +43,19 @@ song: any= '';
      this.songService.getSong(this.id ).subscribe(res => {
         this.song =  res.json().result;
         console.log(this.song);
-    }
+        this.audio = new Audio(this.song.song);
+        this.http
+          .get(this.song.lyric)
+          .subscribe((response: Response) => {
+            this.processLyrics(response.text());
+          });
+        this.audio.addEventListener('timeupdate', (event) => {
+          this.getCurrentLine(this.audio.currentTime);
+          this.currentTime = this.reproductorService.secondsToString(this.audio.currentTime);
+        });
+        }
     );
-    this.audio = new Audio(this.song.song);
-    this.http
-      .get(this.song.lyric)
-      .subscribe((response: Response) => {
-        this.processLyrics(response.text());
-      });
-    this.audio.addEventListener('timeupdate', (event) => {
-      this.getCurrentLine(this.audio.currentTime);
-      this.currentTime = this.reproductorService.secondsToString(this.audio.currentTime);
-    });
+    
   }
 
 

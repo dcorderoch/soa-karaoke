@@ -46,19 +46,44 @@ export class AddComponent implements OnInit {
     this.song.name = this.infForm.value.name;
     this.song.album = this.infForm.value.album;
     this.song.artist = this.infForm.value.artista;
-    this.songService.addSong(this.song);
+      Swal.fire({
+       title: 'Subiendo archivos',
+       text: 'Por favor espere',
+       showCloseButton: false,
+       showCancelButton: false,
+       background: '#f1f2f3',
+       imageUrl: '../../assets/loading.gif',
+       width:300
+     });
+    this.songService.newSong(this.song).subscribe(data => {
+      Swal.fire(  {icon: 'success',
+ title:'Registro exitoso'});
+    },
+    error => {
+      Swal.fire( { icon: 'error',
+ title:'Registro fallido'});
+      console.log(error);
+      });
   }
   file(e){
-    console.log(e.target);
-    if(e.target.files && e.target.files[0]){
-        this.song.file = JSON.stringify(e.target.files[0]);
-      }
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      if(reader.result){
+      this.song.file = reader.result.slice(23);
+    }
+    };
   }
   file2(e){
-    console.log(e.target);
-    if(e.target.files && e.target.files[0]){
-        this.song.lyric = JSON.stringify(e.target.files[0]);
-      }
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      if(reader.result){
+        this.song.lyric = reader.result.slice(37);
+        }
+    };
   }
 
 
