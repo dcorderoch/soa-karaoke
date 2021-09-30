@@ -58,9 +58,15 @@ def get_all_songs():
 def get_filtered_songs(by,value):
   songs = mongo.db.songs
   output = []
-  for s in songs.find({by:value}):
-    id=str(s['_id'])
-    output.append({'id' :id ,'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album']})
+  if by=="lyric":
+      for s in songs:
+          if value in s['lyricDetail']:
+              id = str(s['_id'])
+              output.append({'id': id, 'name': s['name'], 'lyric': s['lyric'], 'file': s['file'], 'artist': s['artist'],'album': s['album'],'lyricDetail': s['lyricDetail']})
+  else:
+      for s in songs.find({by:value}):
+        id=str(s['_id'])
+        output.append({'id' :id ,'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album'],'lyricDetail': s['lyricDetail']})
   return jsonify({'songs' : output})
 @app.route('/songs', methods=['POST'])
 def add_song():
@@ -69,9 +75,10 @@ def add_song():
       name = request.json['name']
       file = request.json['file']
       lyric = request.json['lyric']
-      #artist = request.json['artist']
-      #album= request.json['album']
-      #songs.insert_one({'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album})
+      artist = request.json['artist']
+      album= request.json['album']
+      lyrics = base64.b64decode(lyric).decode()
+      songs.insert_one({'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album,'lyricDetail':lyrics})
       upload_blob("soa_proyecto1",request.json['file'],request.json['lyric'],request.json['name'],request.json['name']+"_Lyric")
       return jsonify({'error': False,'message':'Successful insert'})
   except Exception as e:
@@ -116,10 +123,13 @@ def updateSong():
       artist = request.json['artist']
       album = request.json['album']
       id = request.json['id']
+      lyrics = base64.b64decode(lyric).decode()
       filter = {'_id': ObjectId(id)}
-      newvalues = {"$set": {'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album}}
-
+      newvalues = {"$set": {'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album,'lyricDetail':lyrics}}
       songs.update_one(filter, newvalues)
+      if(lyric!="" or file!=""):
+          upload_blob("soa_proyecto1",request.json['file'],request.json['lyric'],request.json['name'],request.json['name']+"_Lyric")
+
       return jsonify({'error': False,'message':'Successful update'})
   except:
       return jsonify({'error': True, 'message': 'Error updating song'})\
