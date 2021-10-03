@@ -1,6 +1,6 @@
- <div class="example-viewport">
-  <div fxLayout="row" fxLayoutAlign="end center" > 
-     
+  <div class="example-viewport">
+
+  <div fxLayout="row" fxLayoutAlign="end center" >
     <mat-radio-group class="example-filter" aria-label="Select an option">
       Filtrar Por:
   <mat-radio-button name="fieldName" ngDefaultControl [(ngModel)]='filtro' value="name">Nombre</mat-radio-button>
@@ -12,7 +12,7 @@
   <mat-card  class="example-form"  fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px;margin-top: 10px;">
 
   <form >
-    
+
   <mat-form-field class="example-full-width"  appearance="legacy">
 
     <input ngDefaultControl [(ngModel)]="value" name="value" matInput placeholder="Buscar">
@@ -22,7 +22,7 @@
 <a  (click)="getFilter()" mat-raised-button><mat-icon aria-hidden="false" aria-label="Example home icon">
 search
 </mat-icon></a>
- <a href="/add" mat-raised-button><mat-icon aria-hidden="false" aria-label="Example home icon">
+ <a  (click)="add()" mat-raised-button><mat-icon aria-hidden="false" aria-label="Example home icon">
 add
 </mat-icon></a>
 </div>

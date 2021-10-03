@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'bzq-login',
@@ -10,8 +11,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  name = new FormControl('', [Validators.required, Validators.email]);
+  name = new FormControl('', [Validators.required]);
   pass = new FormControl('', [Validators.required]);
+  user = new User();
 
 
   @HostListener('document:keydown', ['$event'])
@@ -45,7 +47,10 @@ export class LoginComponent implements OnInit {
       this.pass.hasError('required')
     ) {
     } else {
-     
+     this.user.isPremium = true;
+     this.user.userName = this.name.value;
+     localStorage.setItem('user', JSON.stringify(this.user));
+      this.router.navigate(['songs']);
     }
   }
 

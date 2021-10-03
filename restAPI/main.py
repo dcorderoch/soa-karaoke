@@ -77,8 +77,7 @@ def add_song():
       lyric = request.json['lyric']
       artist = request.json['artist']
       album= request.json['album']
-      lyrics = base64.b64decode(lyric).decode()
-      songs.insert_one({'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album,'lyricDetail':lyrics})
+      songs.insert_one({'name': name, 'file': file, 'lyric':lyric,'artist':artist,'album':album})
       upload_blob("soa_proyecto1",request.json['file'],request.json['lyric'],request.json['name'],request.json['name']+"_Lyric")
       return jsonify({'error': False,'message':'Successful insert'})
   except Exception as e:
@@ -178,4 +177,3 @@ def cors_configuration():
     return jsonify({'result': "CORS active"})
 if __name__ == "__main__":
     app.run()
-
