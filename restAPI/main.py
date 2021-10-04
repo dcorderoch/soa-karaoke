@@ -47,12 +47,15 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
     return url
 @app.route('/songs', methods=['GET'])
 def get_all_songs():
-  songs = mongo.db.songs
-  output = []
-  for s in songs.find():
-    id=str(s['_id'])
-    output.append({'id' :id ,'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album']})
-  return jsonify({'songs' : output})
+    try:
+      songs = mongo.db.songs
+      output = []
+      for s in songs.find():
+        id=str(s['_id'])
+        output.append({'id' :id ,'name' : s['name'], 'artist' : s['artist'], 'album' : s['album']})
+      return jsonify({'songs' : output})
+    except Exception as e:
+        print(e)
 
 @app.route('/songs/filter/<by>/<value>', methods=['GET'])
 def get_filtered_songs(by,value):
@@ -62,11 +65,11 @@ def get_filtered_songs(by,value):
       for s in songs:
           if value in s['lyricDetail']:
               id = str(s['_id'])
-              output.append({'id': id, 'name': s['name'], 'lyric': s['lyric'], 'file': s['file'], 'artist': s['artist'],'album': s['album'],'lyricDetail': s['lyricDetail']})
+              output.append({'id': id, 'name': s['name'], 'artist': s['artist'],'album': s['album'],'lyricDetail': s['lyricDetail']})
   else:
       for s in songs.find({by:value}):
         id=str(s['_id'])
-        output.append({'id' :id ,'name' : s['name'], 'lyric' : s['lyric'], 'file' : s['file'], 'artist' : s['artist'], 'album' : s['album'],'lyricDetail': s['lyricDetail']})
+        output.append({'id' :id ,'name' : s['name'], 'artist' : s['artist'], 'album' : s['album'],'lyricDetail': s['lyricDetail']})
   return jsonify({'songs' : output})
 @app.route('/songs', methods=['POST'])
 def add_song():
@@ -153,7 +156,7 @@ def get_one_song(name):
   if song:
       song=download_blob("soa_proyecto1",name,"Songs/"+name+".mp3")
       lyric=download_blob("soa_proyecto1",name+"_Lyric","Lyrics/"+name+"_Lyric.lrc")
-      output={'song':song,'lyric': lyric,'name' : name,'id' : id,'artist':artist,'album':album}
+      output={'file':song,'lyric': lyric,'name' : name,'id' : id,'artist':artist,'album':album}
 
   else:
     output = "No such name"
