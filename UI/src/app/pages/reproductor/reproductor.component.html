@@ -2,7 +2,10 @@
   <a mat-button href="/songs" >
     <mat-icon style="font-size: 45px;" color="accent"> arrow_back </mat-icon>
   </a>
-  <div class="flex-container">
+  <div *ngIf="!song" class="spin">
+    <img src="../../assets/loading.gif" alt="load image" />
+  </div>
+  <div *ngIf="song" class="flex-container">
     
     <mat-card-content class="logContainer">
       <div fxLayout="row" fxLayoutAlign="start start">

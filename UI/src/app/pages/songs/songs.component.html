@@ -26,11 +26,16 @@ search
 add
 </mat-icon></a>
 </div>
+<div *ngIf="!songs" class="spin">
+    <img src="../../assets/loading.gif" alt="load image" />
+  </div>
  <div fxLayout="row wrap" >
-<mat-card class="example-card"   fxLayout="column" *ngFor="let song of songs" (click) = "viewSong(song.name)" >
-
-  <img mat-card-image  height="100px" style="margin-top:10px;" src="assets/song.svg" alt="Song">
-  <mat-card-content>
+<mat-card class="example-card"   fxLayout="column" *ngFor="let song of songs">
+<a *ngIf="user.isPremium" (click)="edit(song.name)" class="edit" mat-button><mat-icon aria-hidden="false" aria-label="Example home icon">
+edit
+</mat-icon></a>
+  <img mat-card-image  (click) = "viewSong(song.name)" height="100px" style="margin-top:10px;" src="assets/song.svg" alt="Song">
+  <mat-card-content (click) = "viewSong(song.name)">
     <p>
       {{song.name}} - {{song.artist}}
     </p>

@@ -18,16 +18,15 @@ export class SongService {
       .get(this.APIURL + 'songs');     
   }
   getFilteredSongs(value: Filter){
-    console.log(JSON.stringify(value));
     return this.http
       .get(this.APIURL + 'songs/filter/' + value.by +'/' + value.value);
   }
 
   newSong(song){
-
-    console.log("Upload");
     return this.http.post(this.APIURL + 'songs', song);
-    console.log("Upload");
+  }
+  editSong(song){
+    return this.http.put(this.APIURL + 'songs', song);
   }
 
 }

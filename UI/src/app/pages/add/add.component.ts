@@ -3,6 +3,7 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 import Swal from 'sweetalert2'
 import { Song } from 'src/app/models/song';
 import { SongService } from 'src/app/services/song.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -18,7 +19,7 @@ export class AddComponent implements OnInit {
   lyric;
   song = new Song();
 
-  constructor(public songService: SongService) { }
+  constructor(public songService: SongService, private router: Router) { }
 
   ngOnInit(): void {
     this.infForm = new FormGroup({
@@ -57,7 +58,9 @@ export class AddComponent implements OnInit {
      });
     this.songService.newSong(this.song).subscribe(data => {
       Swal.fire(  {icon: 'success',
- title:'Registro exitoso'});
+ title:'Registro exitoso'}
+ );
+      this.router.navigate(['songs']);
     },
     error => {
       Swal.fire( { icon: 'error',

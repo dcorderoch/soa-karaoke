@@ -9,6 +9,16 @@
 .cont{
   width: 95vw;
 }
+.edit{
+  text-align: right;
+  height: 20px;
+}
+.spin {
+  display: flex;
+  height: 80vh;
+  align-items: center;
+  justify-content: center;
+}
 .example-form{
   height:40px;
   width: 200px;

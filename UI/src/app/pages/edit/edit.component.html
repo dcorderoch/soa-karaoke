@@ -1,4 +1,7 @@
-<form class="left-right" [formGroup]="infForm" #idForm (ngSubmit)="onSubmited()">
+<div *ngIf="!song" class="spin">
+    <img src="../../assets/loading.gif" alt="load image" />
+  </div>
+  <form *ngIf="song" class="left-right" [formGroup]="infForm" #idForm (ngSubmit)="onSubmited()">
   <div class="contForm">
     <div class="left">
       <div class="fill">
@@ -8,7 +11,9 @@
           rows="1"
           maxlength="75"
           class="textarea-short"
-          formControlName="name"
+          [(ngModel)]="song.name"
+          name="name"
+           [ngModelOptions]="{standalone: true}"
         ></textarea>
 
       </div>
@@ -18,7 +23,9 @@
           required
           class="textarea-short"
           rows="1"
-          formControlName="artista"
+          [(ngModel)]="song.artist"
+          name="artist"
+           [ngModelOptions]="{standalone: true}"
         ></textarea>
       
       </div>
@@ -28,7 +35,10 @@
           required
           class="textarea-short"
           rows="1"
-          formControlName="album"
+          [(ngModel)]="song.album"
+          name="album"
+           [ngModelOptions]="{standalone: true}"
+
         ></textarea>
         
       </div>
@@ -38,6 +48,7 @@
         <label class="item"> Seleccione la letra de la canción (Archivo .lrc). </label>
         <input
           type="file"
+          (change)="getLyric($event)"
 
         />
       </div>
@@ -53,7 +64,7 @@
       </div>
       <div class="submit-button-container">
         <button mat-button [disabled]="!infForm.valid" class="save-button">Guardar cambios</button>
-        <button mat-button class="exit-button">Salir</button>
+        <button mat-button class="exit-button" (click)="close()">Salir</button>
       </div>
     </div>
   </div>

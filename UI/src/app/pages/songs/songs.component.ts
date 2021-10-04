@@ -20,11 +20,10 @@ public songService: SongService) { }
 
   ngOnInit(): void {
     if( localStorage.getItem('user')){
-    this.user = JSON.parse(localStorage.getItem('user')|| '{}');
-    this.user.isPremium = false;
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.user.isPremium = true;
     }
 
-console.log(this.user);
     this.songService.getSongs().subscribe(res => {
         this.songs =  Array.of(res.json())[0].songs;
     }
@@ -45,7 +44,6 @@ console.log(this.user);
     };
     this.songService.getFilteredSongs(body).subscribe(res => {
         this.songs =  Array.of(res.json())[0].songs;
-        console.log(this.songs);
     }
     );
   }
@@ -55,11 +53,19 @@ console.log(this.user);
       this.router.navigate(['add']);
     }else{
       Swal.fire({
-      text: 'Debes ser usuario premium para agregar canciones',
-      icon: 'error',
-      confirmButtonText: 'Cerrar'
-    });
+  title: 'Debes ser usuario premium para agregar canciones',
+  showCancelButton: true,
+  confirmButtonText: 'Pásate a Premium',
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire('', '', 'success')
+    this.router.navigate(['songs']);
+  }
+})
     }
+  }
+  edit(name){
+    this.router.navigate(['edit/' + name]);
   }
 
 }

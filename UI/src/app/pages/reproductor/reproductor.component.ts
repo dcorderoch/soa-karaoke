@@ -43,7 +43,7 @@ song: any= '';
      this.songService.getSong(this.id ).subscribe(res => {
         this.song =  res.json().result;
         console.log(this.song);
-        this.audio = new Audio(this.song.song);
+        this.audio = new Audio(this.song.file);
         this.http
           .get(this.song.lyric)
           .subscribe((response: Response) => {

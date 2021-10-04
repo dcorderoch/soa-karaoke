@@ -4,7 +4,6 @@ import { Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import { User } from 'src/app/models/user';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -16,18 +15,17 @@ name = new FormControl('', [Validators.required]);
   pass = new FormControl('', [
     Validators.required
   ]);
-  constructor(public authService: AuthService,private router: Router) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
   }
   register(userName, userPassword){
     let user = new User();
     user.userName = userName.value;
-    user.password = userPassword.value;
+    user.password =userPassword.value;
     this.authService.register(user).subscribe(data => {
       Swal.fire(  {icon: 'success',
  title:'Registro exitoso'});
-      this.router.navigate(['login']);
     },
     error => {
       Swal.fire( { icon: 'error',
