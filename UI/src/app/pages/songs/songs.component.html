@@ -31,7 +31,7 @@ add
   </div>
  <div fxLayout="row wrap" >
 <mat-card class="example-card"   fxLayout="column" *ngFor="let song of songs">
-<a *ngIf="user.isPremium" (click)="edit(song.name)" class="edit" mat-button><mat-icon aria-hidden="false" aria-label="Example home icon">
+<a *ngIf="user.type == 'premiumUser'" (click)="edit(song.name)" class="edit" mat-button><mat-icon aria-hidden="false" aria-label="Example home icon">
 edit
 </mat-icon></a>
   <img mat-card-image  (click) = "viewSong(song.name)" height="100px" style="margin-top:10px;" src="assets/song.svg" alt="Song">

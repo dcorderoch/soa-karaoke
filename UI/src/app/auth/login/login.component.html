@@ -15,7 +15,7 @@
           required
         />
 
-        <mat-error class="val" *ngIf="name.invalid">{{ getErrorMessage() }}</mat-error>
+        <mat-error class="val" >Usuario invalido</mat-error>
       </mat-form-field>
 
       <mat-form-field  class="form" appearance="legacy">
@@ -28,7 +28,7 @@
           #userPassword
           required
         />
-        <mat-error class="val" *ngIf="pass.invalid">{{ getErrorMessage() }}</mat-error>
+        <mat-error class="val" >Contraseña invalida</mat-error>
      
       </mat-form-field>
 

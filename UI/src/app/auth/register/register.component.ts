@@ -15,14 +15,19 @@ name = new FormControl('', [Validators.required]);
   pass = new FormControl('', [
     Validators.required
   ]);
+  email = new FormControl('', [
+    Validators.required, Validators.email
+  ]);
   constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
   }
-  register(userName, userPassword){
+  register(userName, userPassword, email){
     let user = new User();
-    user.userName = userName.value;
-    user.password =userPassword.value;
+    user.username = userName.value;
+    user.password = userPassword.value;
+    user.type = 'standardUser';
+    user.email = email.value;
     this.authService.register(user).subscribe(data => {
       Swal.fire(  {icon: 'success',
  title:'Registro exitoso'});

@@ -4,6 +4,7 @@ import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'bzq-login',
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   constructor(
-    private router: Router
+    private router: Router, public authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -47,28 +48,27 @@ export class LoginComponent implements OnInit {
       this.pass.hasError('required')
     ) {
     } else {
-     this.user.isPremium = true;
-     this.user.userName = this.name.value;
-     localStorage.setItem('user', JSON.stringify(this.user));
+      this.authService.logIn(user).subscribe(data => {
+        
+        this.authService.getRole(user.value).subscribe(data => {
+this.user.username = user.value;
+this.user.type = data.json().name;
+          localStorage.setItem('user', JSON.stringify(this.user));
       this.router.navigate(['songs']);
+        }, error => {
+      Swal.fire( { icon: 'error',
+ title:'No se pudo iniciar sesión'});
+      console.log(error);
+      });
+    },
+    error => {
+      Swal.fire( { icon: 'error',
+ title:'No se pudo iniciar sesión'});
+      console.log(error);
+      });
+     
     }
   }
 
-  getErrorMessage() {
-    let message;
-    if (this.name.hasError('required') && this.pass.hasError('required')) {
-      message = 'Por favor ingrese las credenciales';
-      return message;
-    } else if (this.name.hasError('required')) {
-      message = 'Por favor ingrese el email';
-      return message;
-    } else if (this.pass.hasError('required')) {
-      message = 'Por favor ingrese la contraseña';
-      return message;
-    } else {
-      message = this.name.hasError('email') ? 'Correo eléctronico no válido' : '';
-      return message;
-    }
-  }
 }
 

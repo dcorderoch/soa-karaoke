@@ -1,12 +1,14 @@
 export class User {
-  userName: string;
+  username: string;
   password: string;
-  isPremium: boolean;
+  type: string;
+  email: string;
 
   constructor() {
-    this.userName = '';
+    this.username = '';
     this.password = '';
-    this.isPremium = false;
+    this.email = '';
+    this.type = '';
   }
 
 }

@@ -2,14 +2,25 @@
   <div class="flex-container">
     <mat-card-content class="regContainer">
       <img  style="margin-top: 30px;" height="180px" src="assets\KaraoTEC.svg" />
-
       <mat-form-field  class="form">
-        <mat-label class="format">Nombre de usuario:</mat-label>
+        <mat-label class="format">Email de usuario:</mat-label>
         <input
           matInput
           class="in-form"
           type="email"
           placeholder="pat@example.com"
+          [formControl]="email"
+          #userEmail
+          required
+        />
+        <mat-error class="val" >Campo requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field  class="form">
+        <mat-label class="format">Nombre de usuario:</mat-label>
+        <input
+          matInput
+          class="in-form"
+          placeholder="User95"
           [formControl]="name"
           #userName
           required
@@ -30,12 +41,7 @@
         <mat-error class="val" > Campo requerido</mat-error>
 
       </mat-form-field>
-
-     
-
-     
-
-      <button mat-button class="btn" (click)="register(userName, userPassword)">
+      <button mat-button class="btn" (click)="register(userName, userPassword, userEmail)">
         <h3>Registrarse</h3>
       </button>
     </mat-card-content>

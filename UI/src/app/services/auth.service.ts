@@ -14,6 +14,14 @@ export class AuthService {
 }
  register(user){
     return this.http
-      .post(this.APIURL + 'register', user);
+      .post(this.APIURL + 'createUser', user);
+}
+getRole(user){
+    return this.http
+      .get(this.APIURL + 'getRoleOf' + user);
+}
+updateRole(user){
+    return this.http
+      .post(this.APIURL + 'updateRole' , user);
 }
 }

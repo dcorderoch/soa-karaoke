@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Filter } from 'src/app/models/filter';
 import { User } from 'src/app/models/user';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-songs',
@@ -16,7 +17,7 @@ export class SongsComponent implements OnInit {
   value;
   user: any;
   constructor(    private router: Router,
-public songService: SongService) { }
+public songService: SongService, public authService: AuthService) { }
 
   ngOnInit(): void {
     if( localStorage.getItem('user')){
@@ -31,7 +32,6 @@ public songService: SongService) { }
 
   }
   viewSong(id){
-    console.log(id);
     let url = 'song/' + id;
     this.router.navigate([url]);
 
@@ -49,7 +49,7 @@ public songService: SongService) { }
   }
 
   add(){
-    if(this.user.isPremium){
+    if (this.user.type === 'premiumUser'){
       this.router.navigate(['add']);
     }else{
       Swal.fire({
@@ -58,8 +58,17 @@ public songService: SongService) { }
   confirmButtonText: 'Pásate a Premium',
 }).then((result) => {
   if (result.isConfirmed) {
-    Swal.fire('', '', 'success')
+    this.user.type = 'premiumUser';
+    this.authService.updateRole(this.user).subscribe(data => {
+      Swal.fire('', '', 'success');
+      localStorage.setItem('user', JSON.stringify(this.user));
     this.router.navigate(['songs']);
+    },
+    error => {
+      Swal.fire( { icon: 'error',
+ title:'Registro fallido'});
+      console.log(error);
+      });  
   }
 })
     }
