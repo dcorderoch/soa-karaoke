@@ -10,15 +10,15 @@ export class AuthService {
 
   logIn(user){
     return this.http
-      .get(this.APIURL + 'songs/');
+      .post(this.APIURL + 'login', user);
 }
  register(user){
     return this.http
-      .post(this.APIURL + 'createUser', user);
+      .post(this.APIURL + 'createAUser', user);
 }
 getRole(user){
     return this.http
-      .get(this.APIURL + 'getRoleOf' + user);
+      .get(this.APIURL + 'getRoleOf/' + user);
 }
 updateRole(user){
     return this.http

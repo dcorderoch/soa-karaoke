@@ -58,9 +58,10 @@ public songService: SongService, public authService: AuthService) { }
   confirmButtonText: 'Pásate a Premium',
 }).then((result) => {
   if (result.isConfirmed) {
-    this.user.type = 'premiumUser';
+    
     this.authService.updateRole(this.user).subscribe(data => {
       Swal.fire('', '', 'success');
+      this.user.type = 'premiumUser';
       localStorage.setItem('user', JSON.stringify(this.user));
     this.router.navigate(['songs']);
     },
