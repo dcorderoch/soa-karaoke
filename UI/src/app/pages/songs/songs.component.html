@@ -1,4 +1,9 @@
   <div class="example-viewport">
+<div class="session">{{user.username}}
+<a  (click)="logout()" class="edit" mat-button><mat-icon color="primary" aria-hidden="false" aria-label="Example home icon">
+logout
+</mat-icon></a>
+</div>
 
   <div fxLayout="row" fxLayoutAlign="end center" >
     <mat-radio-group class="example-filter" aria-label="Select an option">

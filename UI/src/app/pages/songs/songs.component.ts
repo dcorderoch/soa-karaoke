@@ -36,6 +36,16 @@ public songService: SongService, public authService: AuthService) { }
     this.router.navigate([url]);
 
   }
+  logout(){
+this.authService.logOut().subscribe(data => {
+    this.router.navigate(['login']);
+    },
+    error => {
+      Swal.fire( { icon: 'error',
+ title:'No se pudo cerrar sesión'});
+      console.log(error);
+      });  
+  }
 
   getFilter(){
     const body: Filter = {
