@@ -26,6 +26,6 @@ updateRole(user){
 }
 logOut(){
     return this.http
-      .post(this.APIURL + 'logout', {});
+      .get(this.APIURL + 'logout');
 }
 }
