@@ -28,4 +28,7 @@ logOut(){
     return this.http
       .get(this.APIURL + 'logout');
 }
+getAPIURL(){
+    return this.APIURL;
+}
 }
