@@ -310,7 +310,7 @@ def login():
     else:
         return "Log In Error. Check your credentials"
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout', methods=['GET'])
 def logout():
     oidc_obj = get_oidc()
     refresh_token=g.refresh_token
