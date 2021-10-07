@@ -3,20 +3,19 @@ import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { UserLogin , User} from 'src/app/models/user';
+import { UserLogin, User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'bzq-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   name = new FormControl('', [Validators.required]);
   pass = new FormControl('', [Validators.required]);
   user = new UserLogin();
   user2 = new User();
-
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
@@ -25,20 +24,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  constructor(
-    private router: Router, public authService: AuthService
-  ) {}
+  constructor(private router: Router, public authService: AuthService) {}
 
-  ngOnInit() {
-  }
-
- 
+  ngOnInit() {}
 
   showSwal(pText: string, pIcon: any) {
     Swal.fire({
       text: pText,
       icon: pIcon,
-      confirmButtonText: 'Cerrar'
+      confirmButtonText: 'Cerrar',
     });
   }
 
@@ -52,27 +46,26 @@ export class LoginComponent implements OnInit {
       this.user.username = user.value;
       this.user.password = password.value;
       console.log(this.user);
-      this.authService.logIn(this.user).subscribe(data => {
-        
-      this.authService.getRole(user.value).subscribe(data2 => {
-        this.user2.username = user.value;
-        this.user2.type = Array.of(data2.json())[0][0].name;
-        localStorage.setItem('user', JSON.stringify(this.user2));
-        this.router.navigate(['songs']);
-        }, error => {
-      Swal.fire( { icon: 'error',
- title:'No se pudo iniciar sesión'});
-      console.log(error);
-      });
-    },
-    error => {
-      Swal.fire( { icon: 'error',
- title:'No se pudo iniciar sesión'});
-      console.log(error);
-      });
-     
+      this.authService.logIn(this.user).subscribe(
+        (data) => {
+          this.authService.getRole(user.value).subscribe(
+            (data2) => {
+              this.user2.username = user.value;
+              this.user2.type = Array.of(data2.json())[0][0].name;
+              localStorage.setItem('user', JSON.stringify(this.user2));
+              this.router.navigate(['songs']);
+            },
+            (error) => {
+              Swal.fire({ icon: 'error', title: 'No se pudo iniciar sesión' });
+              console.log(error);
+            }
+          );
+        },
+        (error) => {
+          Swal.fire({ icon: 'error', title: 'No se pudo iniciar sesión' });
+          console.log(error);
+        }
+      );
     }
   }
-
 }
-

@@ -7,43 +7,44 @@ import { EditComponent } from './pages/edit/edit.component';
 import { AddComponent } from './pages/add/add.component';
 import { RegisterComponent } from './auth/register/register.component';
 
-
-const routes: Routes = [{
-  path: 'add',
-  component: AddComponent
-},
-{
-  path: 'login',
-  component: LoginComponent
-},
-{
-  path: 'songs',
-  component: SongsComponent
-},
-{
-  path: 'song/:id',
-  component: ReproductorComponent
-},
-{
-  path: 'edit/:id',
-  component: EditComponent
-},
-{
+const routes: Routes = [
+  {
+    path: 'add',
+    component: AddComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'songs',
+    component: SongsComponent,
+  },
+  {
+    path: 'song/:id',
+    component: ReproductorComponent,
+  },
+  {
+    path: 'edit/:id',
+    component: EditComponent,
+  },
+  {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: 'login',
   },
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
-  }];
+    pathMatch: 'full',
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

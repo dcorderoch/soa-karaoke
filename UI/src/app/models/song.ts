@@ -12,5 +12,4 @@ export class Song {
     this.artist = '';
     this.lyric = '';
   }
-
 }

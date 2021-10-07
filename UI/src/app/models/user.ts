@@ -10,17 +10,14 @@ export class User {
     this.email = '';
     this.type = '';
   }
-
 }
 
 export class UserLogin {
   username: string;
   password: string;
 
-
   constructor() {
     this.username = '';
     this.password = '';
   }
-
 }
