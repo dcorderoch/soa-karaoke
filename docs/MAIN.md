@@ -1,4 +1,4 @@
-Karaoke
+# KARAOKE!
 
 ### Lenguaje de programación
  - Se utilizó Typescript para el desarrollo del FrontEnd ya que primeramente Angular, el framework que se utilizará para este fin, está escrito en este lenguaje, por lo que es recomendado para crear aplicaciones con Angular, además que ofrece beneficios sobre Javascript como reducir bugs y poder modificar el código sin ningún tipo de problema.
@@ -30,6 +30,6 @@ Karaoke
 
 - Se utilizará una organización estructural basada en el proyecto, ya que este permite que managers tomen todas las decisiones del proyecto con facilidad, además que favorece a la claridad de los objetivos y estrategias del proyecto entre los diferentes equipos de desarrollo.
 
-[image]
+![image](https://github.com/dcorderoch/soa-karaoke/blob/newdev/docs/images/Projectized%20Organization%20Structure.png)
 
 - En cuanto la estructura de archivos, se manejó de manera independiente todos los archivos de RestAPI , interfaz gráfica y documentación, para un manejo más organizado de todos los archivos
