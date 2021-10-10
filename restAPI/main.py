@@ -1,7 +1,9 @@
 import base64
 import datetime
+import io
 import json
-import os
+import logging
+import traceback
 
 from bson.objectid import ObjectId
 from flask import Flask, jsonify, request, session, g
@@ -16,32 +18,30 @@ app = Flask(__name__)
 CORS(app)
 app.config["MONGO_DBNAME"] = "SOA"
 app.config["MONGO_URI"] = "mongodb+srv://soa:SOA123@soa.5dx1v.mongodb.net/SOA"
-app.secret_key = b'SMZ19'
+app.secret_key = b"SMZ19"
 
 mongo = PyMongo(app)
 
 
-def __upload_blob(bucket, tmp_filename, blob_name, file_):
+def __upload_blob(bucket, blob_name, file_):
     blob = bucket.blob(blob_name)
-    image_64_decode = base64.b64decode(file_)
-    with open(tmp_filename, "wb") as image_result:
-        image_result.write(image_64_decode)
-    blob.upload_from_filename(tmp_filename)
-    os.remove(tmp_filename)
+    data = base64.b64decode(file_)
+    file_ = io.BytesIO(data)
+    blob.upload_from_file(file_)
 
 
-def upload_song(bucket_name, file_, lyric, file_name, lyric_name):
+def upload_song(*, bucket_name, file_, lyric, file_name, lyric_name):
     storage_client = storage.Client.from_service_account_json(
         "Key/calcium-branch-324922-75e2e2b8d30e.json"
     )
     bucket = storage_client.bucket(bucket_name)
 
-    __upload_blob(bucket, "temp.mp3", file_name, file_)
+    __upload_blob(bucket, file_name, file_)
 
-    __upload_blob(bucket, "temp.lrc", lyric_name, lyric)
+    __upload_blob(bucket, lyric_name, lyric)
 
 
-def download_blob(bucket_name, source_blob_name, destination_file_name):
+def download_blob(*, bucket_name, source_blob_name):
     storage_client = storage.Client.from_service_account_json(
         "Key/calcium-branch-324922-75e2e2b8d30e.json"
     )
@@ -56,7 +56,7 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
 
 
 @app.route("/songs", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_all_songs():
     try:
         songs = mongo.db.songs
@@ -73,11 +73,13 @@ def get_all_songs():
             )
         return jsonify({"songs": output})
     except Exception as exc:
+        traceback.print_exc()
+        logging.debug("ran into exception: %s", exc)
         return jsonify({"songs": []})
 
 
 @app.route("/songs/filter/<by>/<value>", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_filtered_songs(by, value):
     songs = mongo.db.songs
     output = []
@@ -108,7 +110,7 @@ def get_filtered_songs(by, value):
 
 
 @app.route("/songs", methods=["POST"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def add_song():
     try:
         songs = mongo.db.songs
@@ -129,19 +131,21 @@ def add_song():
             }
         )
         upload_song(
-            "soa_proyecto1",
-            request.json["file"],
-            request.json["lyric"],
-            request.json["name"],
-            request.json["name"] + "_Lyric",
+            bucket_name="soa_proyecto1",
+            file_=file_,
+            lyric=lyric,
+            file_name=name,
+            lyric_name=name + "_Lyric"
         )
         return jsonify({"error": False, "message": "Successful insert"})
     except Exception as exc:
+        traceback.print_exc()
+        logging.debug("ran into exception: %s", exc)
         return jsonify({"error": True, "message": "Error saving song"})
 
 
 @app.route("/register", methods=["POST"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def register():
     try:
         users = mongo.db.users
@@ -156,12 +160,14 @@ def register():
             {"userName": user_name, "password": password, "isPremium": False}
         )
         return jsonify({"error": False, "message": "Successful insert"})
-    except Exception:
+    except Exception as exc:
+        traceback.print_exc()
+        logging.debug("ran into exception: %s", exc)
         return jsonify({"error": True, "message": "Error user register"})
 
 
 @app.route("/updatePremium", methods=["PUT"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def upgrade_premium():
     try:
         users = mongo.db.users
@@ -173,18 +179,23 @@ def upgrade_premium():
         return jsonify(
             {"error": False, "message": "Successful upgrade to premium"}
         )
-    except Exception:
+    except Exception as exc:
+        traceback.print_exc()
+        logging.debug("ran into exception: %s", exc)
         return jsonify({"error": True, "message": "Error user upgrade"})
 
 
 @app.route("/songs", methods=["PUT"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def update_song():
     try:
         songs = mongo.db.songs
         name = request.json["name"]
+        song = songs.find_one({"name": name})
         file_ = request.json["file"]
+        file_ = song["file"] if file_ == "" else file_
         lyric_ = request.json["lyric"]
+        lyric_ = song["lyric"] if lyric_ == "" else lyric_
         artist = request.json["artist"]
         album = request.json["album"]
         id_ = request.json["id"]
@@ -192,46 +203,36 @@ def update_song():
         newvalues = {
             "$set": {
                 "name": name,
+                "file": file_,
                 "artist": artist,
                 "album": album,
+                "lyric": lyric_,
             }
         }
-        if file_ == "":
-            song = songs.find_one({"name": name})
-            newvalues["$set"].update({"file": song["file"]})
-        else:
-            newvalues["$set"].update({
-                "file": file_,
-                }
-            )
-        if lyric_ == "":
-            lyric = songs.find_one({"name": name})
-            newvalues["$set"].update({
-                "lyric": lyric["lyric"],
-                }
-            )
-        else:
+        if lyric_ != "":
             lyrics = base64.b64decode(lyric_).decode()
-            newvalues["$set"].update({
-                "lyric": lyric_,
-                "lyricDetail": lyrics
-                }
-            )
+            newvalues["$set"].update({"lyric": lyric_, "lyricDetail": lyrics})
         songs.update_one(filter_, newvalues)
         bucket = "soa_proyecto1"
-        file_ = song["file"] if file_ == "" else file_
-        lyric_ = lyric["lyric"] if lyric_ == "" else lyric_
-        file_name = request.json["name"]
-        lyric_name = request.json["name"] + "_Lyric"
-        upload_song(bucket, file_, lyric_, file_name, lyric_name)
+        file_name = name
+        lyric_name = name + "_Lyric"
+        upload_song(
+            bucket_name=bucket,
+            file_=file_,
+            lyric=lyric_,
+            file_name=file_name,
+            lyric_name=lyric_name
+        )
 
         return jsonify({"error": False, "message": "Successful update"})
     except Exception as exc:
+        traceback.print_exc()
+        logging.debug("ran into exception: %s", exc)
         return jsonify({"error": True, "message": "Error updating song"})
 
 
 @app.route("/songs", methods=["DELETE"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def delete_song():
     try:
         songs = mongo.db.songs
@@ -239,12 +240,14 @@ def delete_song():
         filter_ = {"_id": ObjectId(id_)}
         songs.delete_one(filter_)
         return jsonify({"error": False, "message": "Successful delete"})
-    except Exception:
+    except Exception as exc:
+        traceback.print_exc()
+        logging.debug("ran into exception: %s", exc)
         return jsonify({"error": True, "message": "Error deleting song"})
 
 
 @app.route("/songs/<name>", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_one_song(name):
     songs = mongo.db.songs
     song = songs.find_one({"name": name})
@@ -255,11 +258,9 @@ def get_one_song(name):
         return jsonify({"result": "No such name"})
     bucket_name = "soa_proyecto1"
     song_name = name
-    song_destination = "Songs/" + name + ".mp3"
-    song = download_blob(bucket_name, song_name, song_destination)
+    song = download_blob(bucket_name=bucket_name, source_blob_name=song_name)
     lyric_name = name + "_Lyric"
-    lyric_destination = "Lyrics/" + name + "_Lyric.lrc"
-    lyric = download_blob(bucket_name, lyric_name, lyric_destination)
+    lyric = download_blob(bucket_name=bucket_name, source_blob_name=lyric_name)
     output = {
         "file": song,
         "lyric": lyric,
@@ -272,7 +273,7 @@ def get_one_song(name):
 
 
 @app.route("/setCORS", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def cors_configuration():
     storage_client = storage.Client.from_service_account_json(
         "Key/calcium-branch-324922-75e2e2b8d30e.json"
@@ -303,7 +304,7 @@ def load_user():
 
 
 @app.route("/createAUser", methods=["POST"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def create_user():
     __config = get_config()
     user_name = request.json["username"]
@@ -321,7 +322,7 @@ def create_user():
 
 
 @app.route("/updateRole", methods=["POST"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def update_a_user():
     __config = get_config()
     user_name = request.json["username"]
@@ -338,7 +339,7 @@ def update_a_user():
 
 
 @app.route("/getRoleByUser/<username>", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_role_by_user(username):
     __config = get_config()
     admin = kc_utils.get_admin()
@@ -349,14 +350,14 @@ def get_role_by_user(username):
 
 
 @app.route("/getRealmRoles", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_realm_roles():
     admin = kc_utils.get_admin()
     return json.dumps(admin.get_realm_roles())
 
 
 @app.route("/getAvailableRolesOf/<username>", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_available_roles_of(username):
     admin = kc_utils.get_admin()
     user_id = admin.get_user_id(username)
@@ -371,7 +372,7 @@ def get_available_roles_of(username):
 
 
 @app.route("/getRoleOf/<username>", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_role_of(username):
     admin = kc_utils.get_admin()
     user_id = admin.get_user_id(username)
@@ -384,34 +385,34 @@ def get_role_of(username):
 
 
 @app.route("/getRoleID/<rolename>", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_role_id(rolename):
     admin = kc_utils.get_admin()
     return kc_utils.get_role_id(admin, g.username, rolename)
 
 
 @app.route("/getClients", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_clients():
     admin = kc_utils.get_admin()
     return json.dumps(admin.get_clients())
 
 
 @app.route("/getUserLoggedInfo", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_user_logged_info():
     return {"username": g.username, "access-token": g.access_token}
 
 
 @app.route("/getUserInfo", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_user_info():
     access_token = g.access_token
     return kc_utils.get_userinfo(access_token)
 
 
 @app.route("/login", methods=["POST"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def login():
     user_name = request.json["username"]
     user_pass = request.json["password"]
@@ -427,7 +428,7 @@ def login():
 
 
 @app.route("/logout", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def logout():
     oidc_obj = kc_utils.get_oidc()
     refresh_token = g.refresh_token
@@ -439,11 +440,12 @@ def logout():
 
 
 @app.route("/getUsers", methods=["GET"])
-@cross_origin(origin='*')
+@cross_origin(origin="*")
 def get_users():
     admin = kc_utils.get_admin()
     return json.dumps(admin.get_users({}))
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8888)
+    logging.basicConfig(level=logging.DEBUG)
+    app.run(host="0.0.0.0", port=8888)
