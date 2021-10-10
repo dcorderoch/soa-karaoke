@@ -73,7 +73,6 @@ def get_all_songs():
             )
         return jsonify({"songs": output})
     except Exception as exc:
-        print(exc)
         return jsonify({"songs": []})
 
 
@@ -138,7 +137,6 @@ def add_song():
         )
         return jsonify({"error": False, "message": "Successful insert"})
     except Exception as exc:
-        print(exc)
         return jsonify({"error": True, "message": "Error saving song"})
 
 
@@ -186,34 +184,49 @@ def update_song():
         songs = mongo.db.songs
         name = request.json["name"]
         file_ = request.json["file"]
-        lyric = request.json["lyric"]
+        lyric_ = request.json["lyric"]
         artist = request.json["artist"]
         album = request.json["album"]
         id_ = request.json["id"]
-        lyrics = base64.b64decode(lyric).decode()
         filter_ = {"_id": ObjectId(id_)}
         newvalues = {
             "$set": {
                 "name": name,
-                "file": file_,
-                "lyric": lyric,
                 "artist": artist,
                 "album": album,
-                "lyricDetail": lyrics,
             }
         }
-        songs.update_one(filter_, newvalues)
-        if lyric != "" or file_ != "":
-            upload_song(
-                "soa_proyecto1",
-                request.json["file"],
-                request.json["lyric"],
-                request.json["name"],
-                request.json["name"] + "_Lyric",
+        if file_ == "":
+            song = songs.find_one({"name": name})
+            newvalues["$set"].update({"file": song["file"]})
+        else:
+            newvalues["$set"].update({
+                "file": file_,
+                }
             )
+        if lyric_ == "":
+            lyric = songs.find_one({"name": name})
+            newvalues["$set"].update({
+                "lyric": lyric["lyric"],
+                }
+            )
+        else:
+            lyrics = base64.b64decode(lyric_).decode()
+            newvalues["$set"].update({
+                "lyric": lyric_,
+                "lyricDetail": lyrics
+                }
+            )
+        songs.update_one(filter_, newvalues)
+        bucket = "soa_proyecto1"
+        file_ = song["file"] if file_ == "" else file_
+        lyric_ = lyric["lyric"] if lyric_ == "" else lyric_
+        file_name = request.json["name"]
+        lyric_name = request.json["name"] + "_Lyric"
+        upload_song(bucket, file_, lyric_, file_name, lyric_name)
 
         return jsonify({"error": False, "message": "Successful update"})
-    except Exception:
+    except Exception as exc:
         return jsonify({"error": True, "message": "Error updating song"})
 
 
@@ -405,7 +418,6 @@ def login():
 
     oidc_obj = kc_utils.get_oidc()
     token = kc_utils.get_token(oidc_obj, user_name, user_pass)
-    print(f"TOKEN: {token}")
     if token is None:
         return "Log In Error. Check your credentials"
     session["access_token"] = token["access_token"]
@@ -434,4 +446,4 @@ def get_users():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=8888)
