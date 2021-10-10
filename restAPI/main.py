@@ -9,14 +9,14 @@ from flask_cors import CORS, cross_origin
 from flask_pymongo import PyMongo
 from google.cloud import storage
 
-from local_settings import config, get_config
+from local_settings import get_config
 import keycloak_utils as kc_utils
 
 app = Flask(__name__)
 CORS(app)
 app.config["MONGO_DBNAME"] = "SOA"
 app.config["MONGO_URI"] = "mongodb+srv://soa:SOA123@soa.5dx1v.mongodb.net/SOA"
-app.config.from_object(config)
+app.secret_key = b'SMZ19'
 
 mongo = PyMongo(app)
 
