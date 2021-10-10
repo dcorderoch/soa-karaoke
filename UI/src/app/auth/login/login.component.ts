@@ -51,6 +51,8 @@ export class LoginComponent implements OnInit {
           this.authService.getRole(user.value).subscribe(
             (data2) => {
               this.user2.username = user.value;
+              console.log(data);
+              console.log(data2);
               this.user2.type = Array.of(data2.json())[0][0].name;
               localStorage.setItem('user', JSON.stringify(this.user2));
               this.router.navigate(['songs']);
