@@ -49,6 +49,11 @@ export class ReproductorComponent implements OnInit {
       this.http.get(this.song.lyric).subscribe((response: Response) => {
         this.processLyrics(response.text());
       });
+      this.audio.addEventListener('loadedmetadata', (event) => {
+        this.duration = this.reproductorService.secondsToString(
+          this.audio.duration
+        );
+      });
       this.audio.addEventListener('timeupdate', (event) => {
         this.getCurrentLine(this.audio.currentTime);
         this.currentTime = this.reproductorService.secondsToString(
