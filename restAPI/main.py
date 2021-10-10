@@ -312,13 +312,17 @@ def create_user():
     user_pass = request.json["password"]
     user_type = request.json["type"]
     admin = kc_utils.get_admin()
+    userList = admin.get_users({})
+    for user in userList:
+        if user.get("username") == user_name:
+            return jsonify({"Message": "Username already taken"})
     kc_utils.create_user(admin, user_name, user_email, user_pass)
     client_name = __config["CLIENT_ID"]
     user_id = admin.get_user_id(user_name)
     client_id = admin.get_client_id(client_name)
     role_rep = kc_utils.get_role_by_name(user_type)
     admin.assign_client_role(user_id, client_id, role_rep)
-    return "Added Successfully"
+    return jsonify({"Message":"Added Successfully"})
 
 
 @app.route("/updateRole", methods=["POST"])
@@ -348,6 +352,13 @@ def get_role_by_user(username):
     client_id = admin.get_client_id(client_name)
     return json.dumps(admin.get_client_roles_of_user(user_id, client_id))
 
+
+@app.route("/getSessionByUser/<username>", methods=["GET"])
+@cross_origin(origin="*")
+def get_session_by_user(username):
+    admin = kc_utils.get_admin()
+    sessionList = kc_utils.getSessionByUsername(admin, username )
+    return json.dumps(sessionList)
 
 @app.route("/getRealmRoles", methods=["GET"])
 @cross_origin(origin="*")
@@ -419,24 +430,32 @@ def login():
 
     oidc_obj = kc_utils.get_oidc()
     token = kc_utils.get_token(oidc_obj, user_name, user_pass)
+    admin = kc_utils.get_admin()
+    user_id = admin.get_user_id(user_name)
+    if not user_id:
+        return jsonify({"Message": "User Not Found"})
+    __config = get_config()
+    client_name = __config["CLIENT_ID"]
+    client_id = admin.get_client_id(client_name)
+    roleArray = admin.get_client_roles_of_user(user_id, client_id)
+    roleDict = roleArray[0]
     if token is None:
-        return "Log In Error. Check your credentials"
-    session["access_token"] = token["access_token"]
-    session["username"] = user_name
-    session["refresh_token"] = token["refresh_token"]
-    return "Successfully Logged In"
+        return jsonify({"Message":"Log In Error. Check your credentials"})
+
+    return {"username":user_name,
+            "role":roleDict.get("name"),
+            "access-token": token["access_token"],
+            "refresh_token":token["refresh_token"]
+            }
 
 
-@app.route("/logout", methods=["GET"])
+@app.route("/logout", methods=["POST"])
 @cross_origin(origin="*")
 def logout():
     oidc_obj = kc_utils.get_oidc()
-    refresh_token = g.refresh_token
+    refresh_token = request.json["refresh_token"]
     oidc_obj.logout(refresh_token)
-    session.pop("username", None)
-    session.pop("access_token", None)
-    session.pop("refresh_token", None)
-    return "Logged OUT"
+    return jsonify({"Message":"Logged OUT"})
 
 
 @app.route("/getUsers", methods=["GET"])

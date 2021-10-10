@@ -33,7 +33,10 @@ def create_user(admin, username, email, password):
             "enabled": True,
         }
     )
-
+def getSessionByUsername(admin, username):
+    user_id = admin.get_user_id(username)
+    sessionsList = admin.get_sessions(user_id)
+    return sessionsList
 
 def get_role_id(admin, username, rolename):
     config = get_config()
