@@ -92,7 +92,7 @@ export class ReproductorComponent implements OnInit {
   public handleAudioPlayPause() {
     if (this.audio.paused) {
       this.audio.play();
-      if (!this.duration) {
+      if (!this.duration || this.duration == '00:00') {
         this.duration = this.reproductorService.secondsToString(
           this.audio.duration
         );
