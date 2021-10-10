@@ -1,6 +1,6 @@
 # KARAOKE!
 
-### Lenguaje de programación
+### Lenguajes de programación
  - Se utilizó Typescript para el desarrollo del FrontEnd ya que primeramente Angular, el framework que se utilizará para este fin, está escrito en este lenguaje, por lo que es recomendado para crear aplicaciones con Angular, además que ofrece beneficios sobre Javascript como reducir bugs y poder modificar el código sin ningún tipo de problema.
  
 - Se utilizó Python para el desarrollo del BackEnd, ya que este ofrece extensibilidad, lo cual se consideró importante para el tipo de aplicación que es KARAOKE!, ya que permite agregar más características y funcionalidades al sistema.
