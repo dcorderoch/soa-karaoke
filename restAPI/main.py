@@ -36,9 +36,9 @@ def upload_song(bucket_name, file_, lyric, file_name, lyric_name):
     )
     bucket = storage_client.bucket(bucket_name)
 
-    __upload_blob(bucket, "Temp/temp.mp3", file_name, file_)
+    __upload_blob(bucket, "temp.mp3", file_name, file_)
 
-    __upload_blob(bucket, "Temp/temp.lrc", lyric_name, lyric)
+    __upload_blob(bucket, "temp.lrc", lyric_name, lyric)
 
 
 def download_blob(bucket_name, source_blob_name, destination_file_name):
