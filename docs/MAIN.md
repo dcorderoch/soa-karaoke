@@ -32,4 +32,6 @@
 
 ![ProjectizedOrgStrcDiagram](https://github.com/dcorderoch/soa-karaoke/blob/newdev/docs/images/Projectized%20Organization%20Structure.png)
 
+<img src="images/Projectized%20Organization%20Structure.png" class="img-responsive" alt=""> </div>
+
 - En cuanto la estructura de archivos, se manejó de manera independiente todos los archivos de RestAPI , interfaz gráfica y documentación, para un manejo más organizado de todos los archivos
