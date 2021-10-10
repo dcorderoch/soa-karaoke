@@ -30,8 +30,6 @@
 
 - Se utilizará una organización estructural basada en el proyecto, ya que este permite que managers tomen todas las decisiones del proyecto con facilidad, además que favorece a la claridad de los objetivos y estrategias del proyecto entre los diferentes equipos de desarrollo.
 
-![ProjectizedOrgStrcDiagram](https://github.com/dcorderoch/soa-karaoke/blob/newdev/docs/images/Projectized%20Organization%20Structure.png)
-
-<img src="images/Projectized%20Organization%20Structure.png" class="img-responsive" alt=""> </div>
+<img src="images/Projectized%20Organization%20Structure.png" class="img-responsive" alt="">
 
 - En cuanto la estructura de archivos, se manejó de manera independiente todos los archivos de RestAPI , interfaz gráfica y documentación, para un manejo más organizado de todos los archivos
