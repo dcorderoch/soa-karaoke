@@ -1,0 +1,31 @@
+@startuml KARAOKE!_Component_Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/angular.puml
+!include DEVICONS/python.puml
+!include DEVICONS/mongodb.puml
+!include FONTAWESOME/users.puml
+!include DEVICONS/google_cloud_platform.puml
+
+Container(spa, "KARAOKE!", "angular", "Interfaz gráfica donde los usuarios pueden acceder a todas las funcionalidades de KAROAKE!", $sprite="angular")
+
+System_Boundary(c1,"RestAPI"){
+    Container(keyClkContr, "KeyCloakController", "python-keycloak", "Provee funcionalidad relacionada a la autenticación y autorización de KeyCloak")
+    Container(mongoDBContr, "MongoDBAtlasController", "pymongo", "Provee funcionalidad referente al acceso de MongoDB Atlas")
+    Container(googleCloudContr, "GoogleCloudStorageController", "storage", "Provee funcionalidad referente al acceso de Google Cloud Storage")
+}
+
+System_Ext(keycloakAlias,"Keycloak","Sistema de autenticación y autorización")
+SystemDb_Ext(db, "MongoDB Atlas", "Cloud Database", $sprite="mongodb")
+SystemDb_Ext(googledb, "Google Cloud Storage", "Cloud Storage", $sprite="google_cloud_platform")
+
+Rel(googleCloudContr, googledb,"escribe y lee información de","storage")
+Rel(mongoDBContr, db,"escribe y lee información de","pymongo")
+Rel(keyClkContr, keycloakAlias,"realiza HttpRequests al Keycloak API","HTTP/port 8080")
+
+Rel(spa,keyClkContr,"hace log in mediante","HTTP/JSON")
+Rel(spa,mongoDBContr,"guarda los atributos de una canción mediante","HTTP")
+Rel(spa,googleCloudContr,"guarda el archivo de la canción y la letra mediante","HTTP")
+
+@enduml

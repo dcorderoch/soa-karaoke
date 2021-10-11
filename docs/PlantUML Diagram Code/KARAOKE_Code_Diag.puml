@@ -1,0 +1,12 @@
+@startuml KARAOKE!_Code_Diagram
+
+package restAPI.flask <<Frame>>{
+     class main 
+    note right of main
+	En esta clase se incluyó el KeycloakController,
+    MongoDBAtlasController y GoogleCloudStorageController
+    end note
+
+}
+
+@enduml

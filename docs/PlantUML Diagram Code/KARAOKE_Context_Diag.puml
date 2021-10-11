@@ -1,0 +1,21 @@
+@startuml KARAOKE!_Context_Diagram
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include DEVICONS/mongodb.puml
+!include DEVICONS/google_cloud_platform.puml
+
+Person(stdUserAlias, "Usuario Estándar")
+Person(prmUserAlias, "Usuario Premium")
+Boundary(c1,"Jenkins server",){
+    System(systemAlias, "KARAOKE!","Sitio web que permite escuchar una canción mientras se muestra la letra para que se pueda cantar, además de agregar, eliminar y modificar las letras de dichas canciones")
+}
+System_Ext(keycloakAlias,"Keycloak","Sistema de autenticación y autorización")
+SystemDb_Ext(db, "MongoDB Atlas", "Cloud Database", $sprite="mongodb")
+SystemDb_Ext(googledb, "Google Cloud Storage", "Cloud Storage", $sprite="google_cloud_platform")
+
+Rel(stdUserAlias, systemAlias, "busca y reproduce canciones")
+Rel(prmUserAlias, systemAlias, "sube, elimina y modifica letras de canciones existes, además de buscar y reproducir canciones")
+Rel(systemAlias, db,"almacena, modifica y elimina atributos de las canciones que se encuentran en")
+Rel(systemAlias, googledb,"almacena y obtiene los archivos de las canciones y sus letras que se encuentran en")
+Rel(systemAlias, keycloakAlias,"pide la autenticación y autorización de")
+@enduml

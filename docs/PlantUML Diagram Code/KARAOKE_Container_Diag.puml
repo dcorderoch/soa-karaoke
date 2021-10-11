@@ -1,0 +1,28 @@
+@startuml KARAOKE!_Container_Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/angular.puml
+!include DEVICONS/python.puml
+!include DEVICONS/mongodb.puml
+!include FONTAWESOME/users.puml
+!include DEVICONS/google_cloud_platform.puml
+
+Person(stdUserAlias, "Usuario Estándar")
+Person(prmUserAlias, "Usuario Premium")
+System_Boundary(c1,"Jenkins server",){
+    Container(spa, "KARAOKE!", "angular", "Interfaz gráfica donde los usuarios pueden acceder a todas las funcionalidades de KAROAKE!", $sprite="angular")
+    Container(api, "RestAPI", "flask", "Se encarga de toda la interacción con la base de datos y Keycloak", $sprite="python")
+    Rel(spa, api, "realiza API calls", "JSON/HTTP")
+}
+System_Ext(keycloakAlias,"Keycloak","Sistema de autenticación y autorización")
+SystemDb_Ext(db, "MongoDB Atlas", "Cloud Database", $sprite="mongodb")
+SystemDb_Ext(googledb, "Google Cloud Storage", "Cloud Storage", $sprite="google_cloud_platform")
+Rel(api, googledb,"escribe y lee información de","storage")
+Rel(stdUserAlias, spa, "busca y reproduce canciones")
+Rel(prmUserAlias, spa, "sube, elimina y modifica letras de canciones existes, además de buscar y reproducir canciones")
+Rel(api, db,"escribe y lee información de","pymongo")
+Rel(api, keycloakAlias,"realiza HttpRequests al Keycloak API","HTTP/port 8080")
+
+@enduml
