@@ -56,7 +56,7 @@ export class ReproductorComponent implements OnInit {
         this.processLyrics(response.text());
       });
       this.audio.addEventListener('loadedmetadata', (event) => {
-        this.duration = this.ReproductorService.secondsToString(
+        this.duration = this.reproductorService.secondsToString(
           this.audio.duration
         );
       });
