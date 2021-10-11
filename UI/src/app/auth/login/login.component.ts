@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { UserLogin, User ,UserToken} from 'src/app/models/user';
+import { UserLogin, User, UserToken } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -48,11 +48,11 @@ export class LoginComponent implements OnInit {
       console.log(this.user);
       this.authService.logIn(this.user).subscribe(
         (data) => {
-              console.log(data.json());
-              this.user2 = data.json();
-              console.log(this.user2);
-              localStorage.setItem('user', JSON.stringify(this.user2));
-              this.router.navigate(['songs']);
+          console.log(data.json());
+          this.user2 = data.json();
+          console.log(this.user2);
+          localStorage.setItem('user', JSON.stringify(this.user2));
+          this.router.navigate(['songs']);
         },
         (error) => {
           Swal.fire({ icon: 'error', title: 'No se pudo iniciar sesión' });

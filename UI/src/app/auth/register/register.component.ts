@@ -26,12 +26,15 @@ export class RegisterComponent implements OnInit {
     user.email = email.value;
     this.authService.register(user).subscribe(
       (data) => {
-        if(data.json().Message == 'Username already taken'){
-Swal.fire({ icon: 'error', title: 'Nombre de usuario no disponible' });
-        }else{
-        Swal.fire({ icon: 'success', title: 'Registro exitoso' });
-        this.router.navigate(['login']);
-      }
+        if (data.json().Message == 'Username already taken') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Nombre de usuario no disponible',
+          });
+        } else {
+          Swal.fire({ icon: 'success', title: 'Registro exitoso' });
+          this.router.navigate(['login']);
+        }
       },
       (error) => {
         Swal.fire({ icon: 'error', title: 'Registro fallido' });

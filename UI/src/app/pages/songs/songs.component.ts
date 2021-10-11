@@ -25,11 +25,9 @@ export class SongsComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('user')) {
       this.user = JSON.parse(localStorage.getItem('user') || '{}');
-    }else{
+    } else {
       this.router.navigate(['login']);
     }
-    
-   
 
     this.songService.getSongs().subscribe((res) => {
       this.songs = Array.of(res.json())[0].songs;
@@ -42,7 +40,7 @@ export class SongsComponent implements OnInit {
   logout() {
     this.authService.logOut(this.user).subscribe(
       (data) => {
-        localStorage.clear(); 
+        localStorage.clear();
         this.router.navigate(['login']);
       },
       (error) => {

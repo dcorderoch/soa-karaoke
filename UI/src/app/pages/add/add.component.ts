@@ -23,10 +23,9 @@ export class AddComponent implements OnInit {
 
   ngOnInit(): void {
     let user = JSON.parse(localStorage.getItem('user') || '{}');
-    if(!user){
+    if (!user) {
       this.router.navigate(['login']);
-    }
-    else if(user.role != 'premiumUser'){
+    } else if (user.role != 'premiumUser') {
       this.router.navigate(['songs']);
     }
     this.infForm = new FormGroup({
