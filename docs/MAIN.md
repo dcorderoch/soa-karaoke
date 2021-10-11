@@ -14,6 +14,9 @@
 
 <img src="images/KARAOKE!_Component_Diagram.png" class="img-responsive" alt="">
 
+### Diagrama de Código
+
+<img src="images/KARAOKE!_Code_Diagram.png" class="img-responsive" alt="">
 
 ## Documentación de decisiones tomadas en el proyecto
 ### Lenguajes de programación
