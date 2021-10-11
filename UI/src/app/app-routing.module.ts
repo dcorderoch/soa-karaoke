@@ -34,11 +34,11 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'login',
+    redirectTo: 'songs',
   },
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'songs',
     pathMatch: 'full',
   },
 ];

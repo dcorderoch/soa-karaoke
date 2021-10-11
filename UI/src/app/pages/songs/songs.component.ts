@@ -25,8 +25,11 @@ export class SongsComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('user')) {
       this.user = JSON.parse(localStorage.getItem('user') || '{}');
-      this.user.isPremium = true;
+    }else{
+      this.router.navigate(['login']);
     }
+    
+   
 
     this.songService.getSongs().subscribe((res) => {
       this.songs = Array.of(res.json())[0].songs;
@@ -37,8 +40,9 @@ export class SongsComponent implements OnInit {
     this.router.navigate([url]);
   }
   logout() {
-    this.authService.logOut().subscribe(
+    this.authService.logOut(this.user).subscribe(
       (data) => {
+        localStorage.clear(); 
         this.router.navigate(['login']);
       },
       (error) => {
@@ -59,7 +63,7 @@ export class SongsComponent implements OnInit {
   }
 
   add() {
-    if (this.user.type === 'premiumUser') {
+    if (this.user.role === 'premiumUser') {
       this.router.navigate(['add']);
     } else {
       Swal.fire({

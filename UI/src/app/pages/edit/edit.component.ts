@@ -25,6 +25,13 @@ export class EditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    let user = JSON.parse(localStorage.getItem('user') || '{}');
+    if(!user){
+      this.router.navigate(['login']);
+    }
+    else if(user.role != 'premiumUser'){
+      this.router.navigate(['songs']);
+    }
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     console.log(this.id);
     this.songService.getSong(this.id).subscribe((res) => {

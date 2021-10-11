@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { UserLogin, User } from 'src/app/models/user';
+import { UserLogin, User ,UserToken} from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   name = new FormControl('', [Validators.required]);
   pass = new FormControl('', [Validators.required]);
   user = new UserLogin();
-  user2 = new User();
+  user2 = new UserToken();
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
@@ -48,20 +48,11 @@ export class LoginComponent implements OnInit {
       console.log(this.user);
       this.authService.logIn(this.user).subscribe(
         (data) => {
-          this.authService.getRole(user.value).subscribe(
-            (data2) => {
-              this.user2.username = user.value;
-              console.log(data);
-              console.log(data2);
-              this.user2.type = Array.of(data2.json())[0][0].name;
+              console.log(data.json());
+              this.user2 = data.json();
+              console.log(this.user2);
               localStorage.setItem('user', JSON.stringify(this.user2));
               this.router.navigate(['songs']);
-            },
-            (error) => {
-              Swal.fire({ icon: 'error', title: 'No se pudo iniciar sesión' });
-              console.log(error);
-            }
-          );
         },
         (error) => {
           Swal.fire({ icon: 'error', title: 'No se pudo iniciar sesión' });

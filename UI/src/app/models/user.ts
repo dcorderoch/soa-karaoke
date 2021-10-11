@@ -21,3 +21,17 @@ export class UserLogin {
     this.password = '';
   }
 }
+
+export class UserToken {
+  username: string;
+  role: string;
+  accessToken: string;
+  refreshToken: string;
+
+  constructor() {
+    this.username = '';
+    this.role = '';
+    this.accessToken = '';
+    this.refreshToken = '';
+  }
+}

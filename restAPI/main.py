@@ -443,9 +443,9 @@ def login():
         return jsonify({"Message":"Log In Error. Check your credentials"})
 
     return {"username":user_name,
-            "role":roleDict.get("name"),
-            "access-token": token["access_token"],
-            "refresh_token":token["refresh_token"]
+            "role":roleDict.get('name'),
+            "accessToken": token["access_token"],
+            "refreshToken":token["refresh_token"]
             }
 
 
@@ -453,7 +453,7 @@ def login():
 @cross_origin(origin="*")
 def logout():
     oidc_obj = kc_utils.get_oidc()
-    refresh_token = request.json["refresh_token"]
+    refresh_token = request.json["refreshToken"]
     oidc_obj.logout(refresh_token)
     return jsonify({"Message":"Logged OUT"})
 

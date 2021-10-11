@@ -5,7 +5,7 @@ import { Http, Response } from '@angular/http';
   providedIn: 'root',
 })
 export class AuthService {
-  APIURL = 'http://127.0.0.1:5000/';
+  APIURL = 'http://172.19.232.88:8888/';
   constructor(private http: Http) {}
 
   logIn(user) {
@@ -20,8 +20,8 @@ export class AuthService {
   updateRole(user) {
     return this.http.post(this.APIURL + 'updateRole', user);
   }
-  logOut() {
-    return this.http.get(this.APIURL + 'logout');
+  logOut(user) {
+    return this.http.post(this.APIURL + 'logout', user);
   }
   getAPIURL() {
     return this.APIURL;
