@@ -1,5 +1,21 @@
 # KARAOKE!
 
+## Diagramas según el modelo C4
+
+### Diagrama de Contexto
+
+<img src="images/KARAOKE!_Context_Diagram.png" class="img-responsive" alt="">
+
+### Diagrama de Contenedores
+
+<img src="images/KARAOKE!_Container_Diagram.png" class="img-responsive" alt="">
+
+### Diagrama de Componentes
+
+<img src="images/KARAOKE!_Component_Diagram.png" class="img-responsive" alt="">
+
+
+## Documentación de decisiones tomadas en el proyecto
 ### Lenguajes de programación
  - Se utilizó Typescript para el desarrollo del FrontEnd ya que primeramente Angular, el framework que se utilizará para este fin, está escrito en este lenguaje, por lo que es recomendado para crear aplicaciones con Angular, además que ofrece beneficios sobre Javascript como reducir bugs y poder modificar el código sin ningún tipo de problema.
  
