@@ -45,7 +45,6 @@ export class SongsComponent implements OnInit {
       },
       (error) => {
         Swal.fire({ icon: 'error', title: 'No se pudo cerrar sesión' });
-        console.log(error);
       }
     );
   }
@@ -79,7 +78,6 @@ export class SongsComponent implements OnInit {
             },
             (error) => {
               Swal.fire({ icon: 'error', title: 'Registro fallido' });
-              console.log(error);
             }
           );
         }

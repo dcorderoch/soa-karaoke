@@ -69,7 +69,6 @@ export class AddComponent implements OnInit {
       },
       (error) => {
         Swal.fire({ icon: 'error', title: 'Registro fallido' });
-        console.log(error);
       }
     );
   }

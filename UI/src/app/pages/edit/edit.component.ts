@@ -32,10 +32,8 @@ export class EditComponent implements OnInit {
       this.router.navigate(['songs']);
     }
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.id);
     this.songService.getSong(this.id).subscribe((res) => {
       this.song = res.json().result;
-      console.log(this.song);
     });
   }
   public noWhitespaceValidator(control: FormControl) {
@@ -67,7 +65,6 @@ export class EditComponent implements OnInit {
       },
       (error) => {
         Swal.fire({ icon: 'error', title: 'Modificación fallida' });
-        console.log(error);
       }
     );
   }

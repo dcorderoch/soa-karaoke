@@ -45,18 +45,14 @@ export class LoginComponent implements OnInit {
     } else {
       this.user.username = user.value;
       this.user.password = password.value;
-      console.log(this.user);
       this.authService.logIn(this.user).subscribe(
         (data) => {
-          console.log(data.json());
           this.user2 = data.json();
-          console.log(this.user2);
           localStorage.setItem('user', JSON.stringify(this.user2));
           this.router.navigate(['songs']);
         },
         (error) => {
           Swal.fire({ icon: 'error', title: 'No se pudo iniciar sesión' });
-          console.log(error);
         }
       );
     }
