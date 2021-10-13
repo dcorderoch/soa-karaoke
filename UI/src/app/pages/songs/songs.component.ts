@@ -72,7 +72,7 @@ export class SongsComponent implements OnInit {
           this.authService.updateRole(this.user).subscribe(
             (data) => {
               Swal.fire('', '', 'success');
-              this.user.type = 'premiumUser';
+              this.user.role = 'premiumUser';
               localStorage.setItem('user', JSON.stringify(this.user));
               this.router.navigate(['songs']);
             },
