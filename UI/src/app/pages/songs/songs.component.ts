@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { SongService } from 'src/app/services/song.service';
 import { Router } from '@angular/router';
 import { Filter } from 'src/app/models/filter';
-import { User } from 'src/app/models/user';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/services/auth.service';
 

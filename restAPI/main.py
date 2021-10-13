@@ -310,7 +310,7 @@ def create_user():
     user_name = request.json["username"]
     user_email = request.json["email"]
     user_pass = request.json["password"]
-    user_type = request.json["type"]
+    user_type = request.json["role"]
     admin = kc_utils.get_admin()
     userList = admin.get_users({})
     for user in userList:

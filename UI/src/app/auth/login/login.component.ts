@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { UserLogin, User, UserToken } from 'src/app/models/user';
+import { UserLogin, UserToken } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
