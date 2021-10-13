@@ -135,7 +135,7 @@ def add_song():
             file_=file_,
             lyric=lyric,
             file_name=name,
-            lyric_name=name + "_Lyric"
+            lyric_name=name + "_Lyric",
         )
         return jsonify({"error": False, "message": "Successful insert"})
     except Exception as exc:
@@ -221,7 +221,7 @@ def update_song():
             file_=file_,
             lyric=lyric_,
             file_name=file_name,
-            lyric_name=lyric_name
+            lyric_name=lyric_name,
         )
 
         return jsonify({"error": False, "message": "Successful update"})
@@ -322,7 +322,7 @@ def create_user():
     client_id = admin.get_client_id(client_name)
     role_rep = kc_utils.get_role_by_name(user_type)
     admin.assign_client_role(user_id, client_id, role_rep)
-    return jsonify({"Message":"Added Successfully"})
+    return jsonify({"Message": "Added Successfully"})
 
 
 @app.route("/updateRole", methods=["POST"])
@@ -359,8 +359,9 @@ def get_role_by_user(username):
 @cross_origin(origin="*")
 def get_session_by_user(username):
     admin = kc_utils.get_admin()
-    sessionList = kc_utils.getSessionByUsername(admin, username )
+    sessionList = kc_utils.getSessionByUsername(admin, username)
     return json.dumps(sessionList)
+
 
 @app.route("/getRealmRoles", methods=["GET"])
 @cross_origin(origin="*")
@@ -442,13 +443,14 @@ def login():
     roleArray = admin.get_client_roles_of_user(user_id, client_id)
     roleDict = roleArray[0]
     if token is None:
-        return jsonify({"Message":"Log In Error. Check your credentials"})
+        return jsonify({"Message": "Log In Error. Check your credentials"})
 
-    return {"username":user_name,
-            "role":roleDict.get('name'),
-            "accessToken": token["access_token"],
-            "refreshToken":token["refresh_token"]
-            }
+    return {
+        "username": user_name,
+        "role": roleDict.get("name"),
+        "accessToken": token["access_token"],
+        "refreshToken": token["refresh_token"],
+    }
 
 
 @app.route("/logout", methods=["POST"])
@@ -457,7 +459,7 @@ def logout():
     oidc_obj = kc_utils.get_oidc()
     refresh_token = request.json["refreshToken"]
     oidc_obj.logout(refresh_token)
-    return jsonify({"Message":"Logged OUT"})
+    return jsonify({"Message": "Logged OUT"})
 
 
 @app.route("/getUsers", methods=["GET"])
