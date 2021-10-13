@@ -330,7 +330,7 @@ def create_user():
 def update_a_user():
     __config = get_config()
     user_name = request.json["username"]
-    user_type = request.json["type"]
+    user_type = request.json["role"]
     admin = kc_utils.get_admin()
     client_name = __config["CLIENT_ID"]
     user_id = admin.get_user_id(user_name)
