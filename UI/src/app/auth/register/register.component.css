@@ -16,7 +16,7 @@
   align-items: center;
   height: 520px;
   width: 579px;
-  background: rgba(223,241,251, 0.9);
+  background: rgba(223, 241, 251, 0.9);
   box-shadow: 10px 4px 21px gray;
   border-radius: 16px;
   flex-direction: column;
@@ -32,7 +32,7 @@
   justify-content: center;
   height: 70px;
   width: 579px;
-  background: rgba(223,241,251, 0.9);
+  background: rgba(223, 241, 251, 0.9);
   box-shadow: 10px 4px 21px gray;
   border-radius: 16px;
   line-height: 23px;
@@ -75,7 +75,6 @@
   width: 400px;
   line-height: 16px;
 }
-
 
 .btn {
   width: 400px;

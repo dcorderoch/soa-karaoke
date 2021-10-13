@@ -1,9 +1,9 @@
 <div class="back">
   <div class="flex-container">
     <mat-card-content class="logContainer">
-      <img  style="margin-top: 30px;" height="180px" src="assets\KaraoTEC.svg" />
+      <img style="margin-top: 30px" height="180px" src="assets\KaraoTEC.svg" />
 
-      <mat-form-field class="form"  style="margin-top:-20px;">
+      <mat-form-field class="form" style="margin-top: -20px">
         <mat-label class="format">Usuario:</mat-label>
         <input
           matInput
@@ -15,10 +15,10 @@
           required
         />
 
-        <mat-error class="val" >Usuario invalido</mat-error>
+        <mat-error class="val">Usuario invalido</mat-error>
       </mat-form-field>
 
-      <mat-form-field  class="form" appearance="legacy">
+      <mat-form-field class="form" appearance="legacy">
         <mat-label class="format">Contraseña:</mat-label>
         <input
           matInput
@@ -28,15 +28,16 @@
           #userPassword
           required
         />
-        <mat-error class="val" >Contraseña invalida</mat-error>
-     
+        <mat-error class="val">Contraseña invalida</mat-error>
       </mat-form-field>
 
-      <button mat-button class="btn-login" (click)="emailSignIn(userName, userPassword)">
+      <button
+        mat-button
+        class="btn-login"
+        (click)="emailSignIn(userName, userPassword)"
+      >
         <h3>Iniciar sesión</h3>
       </button>
-
-    
     </mat-card-content>
 
     <div class="pad">

@@ -1,24 +1,21 @@
 .left-right {
   width: 80%;
-  background-color: rgba(223,241,251, 0.9);
+  background-color: rgba(223, 241, 251, 0.9);
   margin-left: 10%;
   border-radius: 15px;
   margin-top: 20px;
-
-  
 }
 .title {
-    font-size: 25px;
-    color: blue;
-    padding: 20px 0 0 80px;
-  }
-  .contForm {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-  }
-
+  font-size: 25px;
+  color: blue;
+  padding: 20px 0 0 80px;
+}
+.contForm {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
 
 .left {
   margin-top: 20px;
@@ -35,8 +32,7 @@
   width: 50%;
   padding: 0px 10px 20px 80px;
   box-sizing: border-box;
-    justify-content: space-between;
-
+  justify-content: space-between;
 }
 
 @media only screen and (max-height: 600px) {
@@ -77,8 +73,6 @@ input[type="text"] {
   padding: 0;
 }
 
-
-
 input[type="text"]:focus {
   outline: none;
   border-top-style: hidden;
@@ -106,15 +100,13 @@ textarea {
   border-radius: 10px;
   min-width: 75%;
   border-style: solid;
-  background-color: rgba(255,255,255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   border-color: black;
   margin-bottom: 10px;
   padding: 5px;
   resize: none;
   vertical-align: middle;
 }
-
-
 
 textarea:hover {
   width: 75%;
@@ -132,14 +124,12 @@ textarea:hover {
   line-height: 40px;
 }
 
-
 .radio-label {
   margin-left: 20px;
   margin-bottom: 10px;
   font-size: 14px;
   position: relative;
   display: block;
-
 }
 
 .submit-button-container {
@@ -170,8 +160,6 @@ textarea:hover {
   color: white !important;
 }
 
-
-
 .exit-button {
   border-radius: 25px;
   height: 60px;
@@ -183,7 +171,7 @@ textarea:hover {
   border-style: solid;
   border-color: blue;
   background-color: transparent;
-  color: blue; 
+  color: blue;
 }
 
 .areasContainer {

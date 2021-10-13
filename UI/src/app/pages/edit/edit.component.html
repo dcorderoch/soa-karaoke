@@ -1,7 +1,13 @@
 <div *ngIf="!song" class="spin">
-    <img src="../../assets/loading.gif" alt="load image" />
-  </div>
-  <form *ngIf="song" class="left-right" [formGroup]="infForm" #idForm (ngSubmit)="onSubmited()">
+  <img src="../../assets/loading.gif" alt="load image" />
+</div>
+<form
+  *ngIf="song"
+  class="left-right"
+  [formGroup]="infForm"
+  #idForm
+  (ngSubmit)="onSubmited()"
+>
   <div class="contForm">
     <div class="left">
       <div class="fill">
@@ -13,9 +19,8 @@
           class="textarea-short"
           [(ngModel)]="song.name"
           name="name"
-           [ngModelOptions]="{standalone: true}"
+          [ngModelOptions]="{standalone: true}"
         ></textarea>
-
       </div>
       <div class="fill">
         <label class="item"> Artista </label>
@@ -25,9 +30,8 @@
           rows="1"
           [(ngModel)]="song.artist"
           name="artist"
-           [ngModelOptions]="{standalone: true}"
+          [ngModelOptions]="{standalone: true}"
         ></textarea>
-      
       </div>
       <div class="fill">
         <label class="item"> Albúm </label>
@@ -37,33 +41,25 @@
           rows="1"
           [(ngModel)]="song.album"
           name="album"
-           [ngModelOptions]="{standalone: true}"
-
+          [ngModelOptions]="{standalone: true}"
         ></textarea>
-        
       </div>
     </div>
     <div class="right">
-      <div class="fill" style="margin-top:20px">
-        <label class="item"> Seleccione la letra de la canción (Archivo .lrc). </label>
-        <input
-          type="file"
-          (change)="getLyric($event)"
-
-        />
-      </div>
-      <div class="fill" style="margin-top:20px; margin-bottom: 20px;">
+      <div class="fill" style="margin-top: 20px">
         <label class="item">
-          Seleccione el archivo .mp3 del la canción.
+          Seleccione la letra de la canción (Archivo .lrc).
         </label>
-        <input
-          type="file"
-          (change)="getMp3($event)"
-
-        />
+        <input type="file" (change)="getLyric($event)" />
+      </div>
+      <div class="fill" style="margin-top: 20px; margin-bottom: 20px">
+        <label class="item"> Seleccione el archivo .mp3 del la canción. </label>
+        <input type="file" (change)="getMp3($event)" />
       </div>
       <div class="submit-button-container">
-        <button mat-button [disabled]="!infForm.valid" class="save-button">Guardar cambios</button>
+        <button mat-button [disabled]="!infForm.valid" class="save-button">
+          Guardar cambios
+        </button>
         <button mat-button class="exit-button" (click)="close()">Salir</button>
       </div>
     </div>

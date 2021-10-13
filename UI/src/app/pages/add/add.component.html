@@ -1,4 +1,9 @@
-<form class="left-right" [formGroup]="infForm" #idForm (ngSubmit)="onSubmited()">
+<form
+  class="left-right"
+  [formGroup]="infForm"
+  #idForm
+  (ngSubmit)="onSubmited()"
+>
   <div class="contForm">
     <div class="left">
       <div class="fill">
@@ -10,7 +15,6 @@
           class="textarea-short"
           formControlName="name"
         ></textarea>
-
       </div>
       <div class="fill">
         <label class="item"> Artista </label>
@@ -20,7 +24,6 @@
           rows="1"
           formControlName="artista"
         ></textarea>
-      
       </div>
       <div class="fill">
         <label class="item"> Albúm </label>
@@ -30,31 +33,23 @@
           rows="1"
           formControlName="album"
         ></textarea>
-        
       </div>
     </div>
     <div class="right">
-      <div class="fill" style="margin-top:20px">
-        <label class="item"> Seleccione la letra de la canción (Archivo .lrc). </label>
-        <input 
-          type="file"
-          name="lyric"
-          (change)="file2($event)"
-        />
-      </div>
-      <div class="fill" style="margin-top:20px; margin-bottom: 20px;">
+      <div class="fill" style="margin-top: 20px">
         <label class="item">
-          Seleccione el archivo .mp3 del la canción.
+          Seleccione la letra de la canción (Archivo .lrc).
         </label>
-        <input 
-          type="file"
-(change)="file($event)"          name="mp3"
-
-        />
+        <input type="file" name="lyric" (change)="file2($event)" />
+      </div>
+      <div class="fill" style="margin-top: 20px; margin-bottom: 20px">
+        <label class="item"> Seleccione el archivo .mp3 del la canción. </label>
+        <input type="file" (change)="file($event)" name="mp3" />
       </div>
       <div class="submit-button-container">
-        <button mat-button [disabled]="!infForm.valid" class="save-button">Agregar canción</button>
-        <!-- <button mat-button [disabled]="!infForm.valid" class="exit-button">Salir</button> -->
+        <button mat-button [disabled]="!infForm.valid" class="save-button">
+          Agregar canción
+        </button>
       </div>
     </div>
   </div>

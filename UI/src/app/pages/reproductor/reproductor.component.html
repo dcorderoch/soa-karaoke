@@ -1,27 +1,35 @@
 <div class="back">
-  <a mat-button href="/songs" >
-    <mat-icon style="font-size: 45px;" color="accent"> arrow_back </mat-icon>
+  <a mat-button href="/songs">
+    <mat-icon style="font-size: 45px" color="accent"> arrow_back </mat-icon>
   </a>
   <div *ngIf="!song" class="spin">
     <img src="../../assets/loading.gif" alt="load image" />
   </div>
   <div *ngIf="song" class="flex-container">
-    
     <mat-card-content class="logContainer">
       <div fxLayout="row" fxLayoutAlign="start start">
         <h1>{{ song.name }} - {{ song.artist }}</h1>
       </div>
-      <div style="text-align: center;">
-        <h2 style="color:rgba(163, 73, 164, 0.9);">{{ lineB }}</h2>
-        <h1 style="color:purple;">{{ lineA }}</h1>
-        <h2 style="color:rgba(163, 73, 164, 0.9);">{{ lineD }}</h2>
-        <h3 style="color:rgba(163, 73, 164, 0.9);">{{ lineDD }}</h3>
+      <div style="text-align: center">
+        <h2 style="color: rgba(163, 73, 164, 0.9)">{{ lineB }}</h2>
+        <h1 style="color: purple">{{ lineA }}</h1>
+        <h2 style="color: rgba(163, 73, 164, 0.9)">{{ lineD }}</h2>
+        <h3 style="color: rgba(163, 73, 164, 0.9)">{{ lineDD }}</h3>
       </div>
       <div class="duration">
-        <div fxLayout="row" fxLayoutAlign="space-around center" class="playerContainer" >
-          <button mat-button class="btnplaypause" (click)="handleAudioPlayPause()">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">{{ buttonText }}
-            </mat-icon> 
+        <div
+          fxLayout="row"
+          fxLayoutAlign="space-around center"
+          class="playerContainer"
+        >
+          <button
+            mat-button
+            class="btnplaypause"
+            (click)="handleAudioPlayPause()"
+          >
+            <mat-icon aria-hidden="false" aria-label="Example home icon"
+              >{{ buttonText }}
+            </mat-icon>
           </button>
           <mat-slider
             [max]="audio.duration"
@@ -29,7 +37,7 @@
             [(ngModel)]="audio.currentTime"
             [disabled]="false"
             (input)="changeTime($event)"
-           >
+          >
           </mat-slider>
           <div class="duration">
             <span>{{ currentTime }}</span>

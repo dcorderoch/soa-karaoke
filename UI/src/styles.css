@@ -1,5 +1,5 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-body{
-    background: url(assets/fondo.svg) no-repeat center center fixed;
-    background-size: cover;
+body {
+  background: url(assets/fondo.svg) no-repeat center center fixed;
+  background-size: cover;
 }

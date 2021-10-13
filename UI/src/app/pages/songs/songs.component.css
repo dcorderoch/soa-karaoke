@@ -1,22 +1,21 @@
-.example-card{
+.example-card {
   width: 210px !important;
   text-align: center;
-  background-color: rgba(223,241,251);
+  background-color: rgba(223, 241, 251);
   margin-left: 13px;
   margin-bottom: 10px;
-
 }
-.session{
+.session {
   color: greenyellow;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: baseline;
 }
-.cont{
+.cont {
   width: 95vw;
 }
-.edit{
+.edit {
   text-align: right;
   height: 20px;
 }
@@ -26,31 +25,31 @@
   align-items: center;
   justify-content: center;
 }
-.example-form{
-  height:40px;
+.example-form {
+  height: 40px;
   width: 200px;
   background-color: rgba(255, 255, 255, 0.9);
   margin-bottom: 10px;
   margin-left: 10px;
 }
-.example-filter{
-  height:40px;
+.example-filter {
+  height: 40px;
   width: 500px;
   background-color: rgba(255, 255, 255, 0.9);
   margin-bottom: 10px;
   margin-left: 10px;
   display: flex;
   align-items: center;
-  justify-content:space-around;
+  justify-content: space-around;
   margin-top: 10px;
   border-radius: 16px;
 }
-.row{
+.row {
   display: flex;
   flex-direction: row;
 }
-.column{
+.column {
   display: flex;
   flex-direction: column;
-    width: 200px;
+  width: 200px;
 }

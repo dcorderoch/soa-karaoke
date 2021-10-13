@@ -1,10 +1,8 @@
-
 .flex-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
 
 .logContainer {
@@ -13,16 +11,12 @@
   align-items: center;
   height: 500px;
   width: 579px;
-  background-color: rgba(223,241,251, 0.9);
+  background-color: rgba(223, 241, 251, 0.9);
   box-shadow: 10px 4px 21px gray;
   border-radius: 16px;
   flex-direction: column;
   justify-content: space-around;
-
-
 }
-
-
 
 .signContainer {
   display: flex;
@@ -35,7 +29,6 @@
   border-radius: 16px;
   line-height: 20px;
   color: gray;
-
 }
 
 .singIn {
@@ -50,7 +43,7 @@
   width: 400px;
   line-height: 15px;
   margin-top: 20px;
-   margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .format {
@@ -73,7 +66,6 @@
   padding-top: 15px;
   color: red;
 }
-
 
 .pad {
   padding-top: 25px;
