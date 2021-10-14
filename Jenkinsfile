@@ -2,11 +2,6 @@ pipeline {
 	agent any
 
 	stages {
-		stage ('soa_build_from_github - Checkout') {
-			steps {
-				checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/dcorderoch/soa-karaoke.git']]])
-			}
-		}
 		stage ('soa_build_from_github - REST DEPLOY') {
 			steps {
 				withCredentials([string(credentialsId: 'webapp-server', variable: 'SERVER'), string(credentialsId: 'webapp-server-username', variable: 'USER')]) {
