@@ -56,7 +56,7 @@ def download_blob(*, bucket_name, source_blob_name):
 
 
 @app.route("/songs", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_all_songs():
     try:
         songs = mongo.db.songs
@@ -79,7 +79,7 @@ def get_all_songs():
 
 
 @app.route("/songs/filter/<by>/<value>", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_filtered_songs(by, value):
     songs = mongo.db.songs
     output = []
@@ -110,7 +110,7 @@ def get_filtered_songs(by, value):
 
 
 @app.route("/songs", methods=["POST"])
-@cross_origin(origin="*")
+@cross_origin()
 def add_song():
     try:
         songs = mongo.db.songs
@@ -147,7 +147,7 @@ def add_song():
 
 
 @app.route("/register", methods=["POST"])
-@cross_origin(origin="*")
+@cross_origin()
 def register():
     try:
         users = mongo.db.users
@@ -169,7 +169,7 @@ def register():
 
 
 @app.route("/updatePremium", methods=["PUT"])
-@cross_origin(origin="*")
+@cross_origin()
 def upgrade_premium():
     try:
         users = mongo.db.users
@@ -188,7 +188,7 @@ def upgrade_premium():
 
 
 @app.route("/songs", methods=["PUT"])
-@cross_origin(origin="*")
+@cross_origin()
 def update_song():
     try:
         songs = mongo.db.songs
@@ -235,7 +235,7 @@ def update_song():
 
 
 @app.route("/songs", methods=["DELETE"])
-@cross_origin(origin="*")
+@cross_origin()
 def delete_song():
     try:
         songs = mongo.db.songs
@@ -250,7 +250,7 @@ def delete_song():
 
 
 @app.route("/songs/<name>", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_one_song(name):
     songs = mongo.db.songs
     song = songs.find_one({"name": name})
@@ -277,7 +277,7 @@ def get_one_song(name):
 
 
 @app.route("/setCORS", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def cors_configuration():
     storage_client = storage.Client.from_service_account_json(
         "Key/calcium-branch-324922-75e2e2b8d30e.json"
@@ -308,7 +308,7 @@ def load_user():
 
 
 @app.route("/createAUser", methods=["POST"])
-@cross_origin(origin="*")
+@cross_origin()
 def create_user():
     __config = get_config()
     user_name = request.json["username"]
@@ -330,7 +330,7 @@ def create_user():
 
 
 @app.route("/updateRole", methods=["POST"])
-@cross_origin(origin="*")
+@cross_origin()
 def update_a_user():
     __config = get_config()
     user_name = request.json["username"]
@@ -349,7 +349,7 @@ def update_a_user():
 
 
 @app.route("/getRoleByUser/<username>", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_role_by_user(username):
     __config = get_config()
     admin = kc_utils.get_admin()
@@ -360,7 +360,7 @@ def get_role_by_user(username):
 
 
 @app.route("/getSessionByUser/<username>", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_session_by_user(username):
     admin = kc_utils.get_admin()
     sessionList = kc_utils.getSessionByUsername(admin, username)
@@ -368,14 +368,14 @@ def get_session_by_user(username):
 
 
 @app.route("/getRealmRoles", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_realm_roles():
     admin = kc_utils.get_admin()
     return json.dumps(admin.get_realm_roles())
 
 
 @app.route("/getAvailableRolesOf/<username>", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_available_roles_of(username):
     admin = kc_utils.get_admin()
     user_id = admin.get_user_id(username)
@@ -390,7 +390,7 @@ def get_available_roles_of(username):
 
 
 @app.route("/getRoleOf/<username>", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_role_of(username):
     admin = kc_utils.get_admin()
     user_id = admin.get_user_id(username)
@@ -403,34 +403,34 @@ def get_role_of(username):
 
 
 @app.route("/getRoleID/<rolename>", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_role_id(rolename):
     admin = kc_utils.get_admin()
     return kc_utils.get_role_id(admin, g.username, rolename)
 
 
 @app.route("/getClients", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_clients():
     admin = kc_utils.get_admin()
     return json.dumps(admin.get_clients())
 
 
 @app.route("/getUserLoggedInfo", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_user_logged_info():
     return {"username": g.username, "access-token": g.access_token}
 
 
 @app.route("/getUserInfo", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_user_info():
     access_token = g.access_token
     return kc_utils.get_userinfo(access_token)
 
 
 @app.route("/login", methods=["POST"])
-@cross_origin(origin="*")
+@cross_origin()
 def login():
     user_name = request.json["username"]
     user_pass = request.json["password"]
@@ -458,7 +458,7 @@ def login():
 
 
 @app.route("/logout", methods=["POST"])
-@cross_origin(origin="*")
+@cross_origin()
 def logout():
     oidc_obj = kc_utils.get_oidc()
     refresh_token = request.json["refreshToken"]
@@ -467,7 +467,7 @@ def logout():
 
 
 @app.route("/getUsers", methods=["GET"])
-@cross_origin(origin="*")
+@cross_origin()
 def get_users():
     admin = kc_utils.get_admin()
     return json.dumps(admin.get_users({}))
