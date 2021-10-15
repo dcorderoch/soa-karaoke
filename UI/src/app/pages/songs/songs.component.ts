@@ -43,7 +43,9 @@ export class SongsComponent implements OnInit {
     });
   }
   delete(song){
-    this.songService.deleteSong(song).subscribe();
+    this.songService.deleteSong(song).subscribe((res) => {
+      this.songs = Array.of(res.json())[0].songs;
+    });
   }
   logout() {
     this.authService.logOut(this.user).subscribe(
