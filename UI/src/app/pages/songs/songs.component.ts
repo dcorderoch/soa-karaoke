@@ -37,6 +37,7 @@ export class SongsComponent implements OnInit {
     this.router.navigate([url]);
   }
   sinFiltro(){
+    this.filtro = '';
     this.songService.getSongs().subscribe((res) => {
       this.songs = Array.of(res.json())[0].songs;
     });
