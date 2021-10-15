@@ -36,6 +36,14 @@ export class SongsComponent implements OnInit {
     let url = 'song/' + id;
     this.router.navigate([url]);
   }
+  sinFiltro(){
+    this.songService.getSongs().subscribe((res) => {
+      this.songs = Array.of(res.json())[0].songs;
+    });
+  }
+  delete(song){
+    this.songService.deleteSong(song).subscribe();
+  }
   logout() {
     this.authService.logOut(this.user).subscribe(
       (data) => {

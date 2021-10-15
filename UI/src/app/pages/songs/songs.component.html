@@ -43,6 +43,10 @@
         value="lyric"
         >Letra</mat-radio-button
       >
+      <mat-radio-button
+        (change) = "sinFiltro()"
+        >No filtrar</mat-radio-button
+      >
     </mat-radio-group>
     <mat-card
       class="example-form"
@@ -78,8 +82,8 @@
   </div>
   <div fxLayout="row wrap">
     <mat-card class="example-card" fxLayout="column" *ngFor="let song of songs">
-      <a
-        *ngIf="user.role == 'premiumUser'"
+      <div fxLayout="row" *ngIf="user.role == 'premiumUser'">
+        <a
         (click)="edit(song.name)"
         class="edit"
         mat-button
@@ -87,6 +91,10 @@
           edit
         </mat-icon></a
       >
+      <mat-icon (click)="delete(song)" aria-hidden="false" aria-label="Example home icon">
+          delete
+        </mat-icon>
+      </div>
       <img
         mat-card-image
         (click)="viewSong(song.name)"
