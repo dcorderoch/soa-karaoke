@@ -22,16 +22,16 @@ pipeline {
 				nvmIoJsOrgMirror: 'https://iojs.org/dist',
 				nvmNodeJsOrgMirror: 'https://nodejs.org/dist') {
 					withCredentials([string(credentialsId: 'webapp-external-ip', variable: 'DEPLOYIP')]) {
-            sh '''cd UI && sed -i -e s%172.19.232.88%${DEPLOYIP}%g src/app/services/auth.service.ts && cd ..'''
+						sh '''cd UI && sed -i -e s%172.19.232.88%${DEPLOYIP}%g src/app/services/auth.service.ts && cd ..'''
 					}
 					withCredentials([string(credentialsId: 'webapp-server', variable: 'SERVER'), string(credentialsId: 'webapp-server-username', variable: 'USER')]) {
-            sh '''
-            cd UI
-            npm i
+						sh '''
+						cd UI
+						npm i
 						npm run build
-            ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "rm -rf KaraokeSOA"
-            rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q dist/KaraokeSOA $USER@$SERVER:
-            '''
+						ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "rm -rf KaraokeSOA"
+						rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q dist/KaraokeSOA $USER@$SERVER:
+						'''
 					}
 				}
 			}
@@ -41,6 +41,42 @@ pipeline {
 				withCredentials([string(credentialsId: 'webapp-server', variable: 'SERVER'), string(credentialsId: 'webapp-server-username', variable: 'USER')]) {
 					sh '''
 					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "cd KaraokeSOA && sudo rm -rf /var/www/html/* && sudo cp -r * /var/www/html && sudo systemctl restart apache2"
+					'''
+				}
+			}
+		}
+		stage ('soa_build_from_github - REST tests') {
+			steps {
+				withCredentials([string(credentialsId: 'webapp-external-ip', variable: 'DEPLOYIP')]) {
+					sh '''
+					result=$(curl http://$DEPLOYIP:8888/songs/filter/name/null | jq .songs)
+					if ! [ "$result" = "[]" ]; then
+					return 1
+					fi
+					'''
+					sh '''
+					result=$(curl http://$DEPLOYIP:8888/songs/filter/artist/null | jq .songs)
+					if ! [ "$result" = "[]" ]; then
+					return 1
+					fi
+					'''
+					sh '''
+					result=$(curl http://$DEPLOYIP:8888/songs/filter/album/null | jq .songs)
+					if ! [ "$result" = "[]" ]; then
+					return 1
+					fi
+					'''
+					sh '''
+					result=$(curl http://$DEPLOYIP:8888/songs/filter/name/doppelkupplungsgetriebe | jq .songs)
+					if ! [ "$result" = "[]" ]; then
+					return 1
+					fi
+					'''
+					sh '''
+					result=$(curl http://$DEPLOYIP:8888/songs/filter/name/kingofthehill | jq .songs)
+					if ! [ "$result" = "[]" ]; then
+					return 1
+					fi
 					'''
 				}
 			}
