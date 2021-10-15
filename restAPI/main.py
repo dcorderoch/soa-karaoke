@@ -130,12 +130,14 @@ def add_song():
                 "lyricDetail": lyrics,
             }
         )
+        song = songs.find_one({"name": name})
+        song_filename = str(song["_id"])
         upload_song(
             bucket_name="soa_proyecto1",
             file_=file_,
             lyric=lyric,
-            file_name=name,
-            lyric_name=name + "_Lyric",
+            file_name=song_filename,
+            lyric_name=song_filename + "_Lyric",
         )
         return jsonify({"error": False, "message": "Successful insert"})
     except Exception as exc:
@@ -190,16 +192,17 @@ def upgrade_premium():
 def update_song():
     try:
         songs = mongo.db.songs
+        id_ = request.json["id"]
         name = request.json["name"]
-        song = songs.find_one({"name": name})
+        filter_ = {"_id": ObjectId(id_)}
+        song = songs.find_one(filter_)
         file_ = request.json["file"]
         file_ = song["file"] if file_ == "" else file_
         lyric_ = request.json["lyric"]
         lyric_ = song["lyric"] if lyric_ == "" else lyric_
         artist = request.json["artist"]
         album = request.json["album"]
-        id_ = request.json["id"]
-        filter_ = {"_id": ObjectId(id_)}
+        song_filename = str(id_)
         newvalues = {
             "$set": {
                 "name": name,
@@ -214,8 +217,8 @@ def update_song():
             newvalues["$set"].update({"lyric": lyric_, "lyricDetail": lyrics})
         songs.update_one(filter_, newvalues)
         bucket = "soa_proyecto1"
-        file_name = name
-        lyric_name = name + "_Lyric"
+        file_name = song_filename
+        lyric_name = song_filename + "_Lyric"
         upload_song(
             bucket_name=bucket,
             file_=file_,
@@ -257,9 +260,10 @@ def get_one_song(name):
     if not song:
         return jsonify({"result": "No such name"})
     bucket_name = "soa_proyecto1"
-    song_name = name
+    song_filename = str(song["_id"])
+    song_name = song_filename
     song = download_blob(bucket_name=bucket_name, source_blob_name=song_name)
-    lyric_name = name + "_Lyric"
+    lyric_name = song_filename + "_Lyric"
     lyric = download_blob(bucket_name=bucket_name, source_blob_name=lyric_name)
     output = {
         "file": song,
