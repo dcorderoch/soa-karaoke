@@ -11,7 +11,6 @@
       </mat-icon></a
     >
   </div>
-
   <div fxLayout="row" fxLayoutAlign="end center">
     <mat-radio-group class="example-filter" aria-label="Select an option">
       Filtrar Por:
@@ -91,9 +90,11 @@
           edit
         </mat-icon></a
       >
-      <mat-icon (click)="delete(song)" aria-hidden="false" aria-label="Example home icon">
-          delete
-        </mat-icon>
+      <a (click)="delete(song)"  class="edit" mat-button
+      ><mat-icon aria-hidden="false" aria-label="Example home icon">
+        delete
+      </mat-icon></a
+    >
       </div>
       <img
         mat-card-image
