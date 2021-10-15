@@ -49,31 +49,31 @@ pipeline {
 			steps {
 				withCredentials([string(credentialsId: 'webapp-external-ip', variable: 'DEPLOYIP')]) {
 					sh '''
-					result=$(curl http://$DEPLOYIP:8888/songs/filter/name/null | jq .songs)
+					result=$(curl -q http://$DEPLOYIP:8888/songs/filter/name/null | jq .songs)
 					if ! [ "$result" = "[]" ]; then
 					return 1
 					fi
 					'''
 					sh '''
-					result=$(curl http://$DEPLOYIP:8888/songs/filter/artist/null | jq .songs)
+					result=$(curl -q http://$DEPLOYIP:8888/songs/filter/artist/null | jq .songs)
 					if ! [ "$result" = "[]" ]; then
 					return 1
 					fi
 					'''
 					sh '''
-					result=$(curl http://$DEPLOYIP:8888/songs/filter/album/null | jq .songs)
+					result=$(curl -q http://$DEPLOYIP:8888/songs/filter/album/null | jq .songs)
 					if ! [ "$result" = "[]" ]; then
 					return 1
 					fi
 					'''
 					sh '''
-					result=$(curl http://$DEPLOYIP:8888/songs/filter/name/doppelkupplungsgetriebe | jq .songs)
+					result=$(curl -q http://$DEPLOYIP:8888/songs/filter/name/doppelkupplungsgetriebe | jq .songs)
 					if ! [ "$result" = "[]" ]; then
 					return 1
 					fi
 					'''
 					sh '''
-					result=$(curl http://$DEPLOYIP:8888/songs/filter/name/kingofthehill | jq .songs)
+					result=$(curl -q http://$DEPLOYIP:8888/songs/filter/name/kingofthehill | jq .songs)
 					if ! [ "$result" = "[]" ]; then
 					return 1
 					fi
