@@ -31,6 +31,6 @@ export class SongService {
     return this.http.put(this.api + 'songs', song);
   }
   deleteSong(song) {
-    return this.http.delete(this.api + 'songs', song);
+    return this.http.delete(this.api + 'songs', new RequestOptions({body: song}));
   }
 }
