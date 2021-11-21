@@ -71,7 +71,7 @@ def get_all_songs():
                     "album": song["album"],
                 }
             )
-        return jsonify({"songs": output})
+        return jsonify({"songs": output })
     except Exception as exc:
         traceback.print_exc()
         logging.debug("ran into exception: %s", exc)
@@ -471,6 +471,94 @@ def logout():
 def get_users():
     admin = kc_utils.get_admin()
     return json.dumps(admin.get_users({}))
+################################PROYECTO 2 UPDATE################################
+
+##Dashboard info
+@app.route("/dashboard/<username>", methods=["GET"])
+@cross_origin()
+def get_dashboard(username):
+    users = mongo.db.Users
+    user = users.find_one({"username": username})
+    if not user:
+        users.insert_one(
+            {
+                "username":username,
+                "dashboard":{
+                    "timesConnected": 0,
+                    "lastSong": " ",
+                    "songsCompleted": 0,
+                    "favoriteArtist": "",
+                    "favoriteSongs": ""
+                }
+            }
+        )
+        return jsonify({"result": "No user exist"})
+    else:
+        return jsonify({"dashboard": user['dashboard']})
+
+
+##Usuarios veces conectadas
+@app.route("/dashboard/timesConnected/<username>", methods=["PUT"])
+@cross_origin()
+def update_timesConnected(username):
+    users = mongo.db.Users
+    user = users.find_one({"username": username})
+    dashboard = user["dashboard"]
+    dashboard["timesConnected"] = dashboard["timesConnected"] +1
+    filter_ = {"username": username}
+    newvalues = {"$set": {"dashboard": dashboard}}
+    users.update_one(filter_, newvalues)
+    return jsonify({"result": "Successful update"})
+
+##Ultima cancion reproducida
+@app.route("/dashboard/lastSong/<username>", methods=["PUT"])
+@cross_origin()
+def update_lastSong(username):
+    users = mongo.db.Users
+    user = users.find_one({"username": username})
+    dashboard = user["dashboard"]
+    dashboard["lastSong"] = request.json["song"]
+    filter_ = {"username": username}
+    newvalues = {"$set": {"dashboard": dashboard}}
+    users.update_one(filter_, newvalues)
+    return jsonify({"result": "Successful update"})
+
+##Canciones Cantadas(numero)
+@app.route("/dashboard/songsCompleted/<username>", methods=["PUT"])
+@cross_origin()
+def update_songsCompleted(username):
+    users = mongo.db.Users
+    user = users.find_one({"username": username})
+    dashboard = user["dashboard"]
+    dashboard["songsCompleted"] = dashboard["songsCompleted"] +1
+    filter_ = {"username": username}
+    newvalues = {"$set": {"dashboard": dashboard}}
+    users.update_one(filter_, newvalues)
+    return jsonify({"result": "Successful update"})
+##Canciones Favoritas
+@app.route("/dashboard/addFSong/<username>", methods=["PUT"])
+@cross_origin()
+def update_addFSong(username):
+    users = mongo.db.Users
+    user = users.find_one({"username": username})
+    dashboard = user["dashboard"]
+    dashboard["favoriteSongs"] = request.json["listSongs"]
+    filter_ = {"username": username}
+    newvalues = {"$set": {"dashboard": dashboard}}
+    users.update_one(filter_, newvalues)
+    return jsonify({"result": "Successful update"})
+##Artistas Favoritos
+@app.route("/dashboard/addFArtist/<username>", methods=["PUT"])
+@cross_origin()
+def update_addFArtist(username):
+    users = mongo.db.Users
+    user = users.find_one({"username": username})
+    dashboard = user["dashboard"]
+    dashboard["favoriteArtist"] = request.json["listArtist"]
+    filter_ = {"username": username}
+    newvalues = {"$set": {"dashboard": dashboard}}
+    users.update_one(filter_, newvalues)
+    return jsonify({"result": "Successful update"})
 
 
 if __name__ == "__main__":
