@@ -4,6 +4,7 @@ import io
 import json
 import logging
 import traceback
+import requests
 
 from bson.objectid import ObjectId
 from flask import Flask, jsonify, request, session, g
@@ -559,6 +560,14 @@ def update_addFArtist(username):
     newvalues = {"$set": {"dashboard": dashboard}}
     users.update_one(filter_, newvalues)
     return jsonify({"result": "Successful update"})
+##################get artist info##################
+@app.route("/getinfo/<artist>", methods=["GET"])
+@cross_origin()
+def getInfo(artist):
+    URL = "http://theaudiodb.com/api/v1/json/1/search.php?s=" + artist
+    r = requests.get(url=URL)
+    return jsonify({"data": r.json()})
+
 
 
 if __name__ == "__main__":
