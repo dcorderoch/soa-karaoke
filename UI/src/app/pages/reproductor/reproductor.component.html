@@ -45,7 +45,12 @@
             <span>{{ duration }}</span>
           </div>
         </div>
+        <h2 style="color: rgba(163, 73, 164)">Score: {{ points }}</h2>
       </div>
     </mat-card-content>
   </div>
 </div>
+<app-player-speech
+  [playPause]="onSpeechStart"
+  (onSpeechFound)="handleSpeechFound($event)"
+></app-player-speech>
