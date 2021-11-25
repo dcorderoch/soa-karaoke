@@ -9,9 +9,9 @@ pipeline {
 					rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q restAPI $USER@$SERVER:
 					'''
 					sh '''
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker stop flask && sudo docker rm flask"
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "cd restAPI && sudo docker build -t restapi:latest . && sudo docker -t -d -p 8888:8888 --name flask restpi:latest"
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker system prune -f"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker stop flask && sudo docker rm flask"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "cd restAPI && sudo docker build -t restapi:latest . && sudo docker -t -d -p 8888:8888 --name flask restpi:latest"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker system prune -f"
 					# TODO: use docker-compose
 					'''
 				}
