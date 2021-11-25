@@ -48,41 +48,5 @@ pipeline {
 				}
 			}
 		}
-		stage ('soa_build_from_github - REST tests') {
-			steps {
-				withCredentials([string(credentialsId: 'webapp-external-ip', variable: 'DEPLOYIP')]) {
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/name/null | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/artist/null | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/album/null | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/name/doppelkupplungsgetriebe | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/name/kingofthehill | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
-				}
-			}
-		}
 	}
 }
