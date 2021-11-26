@@ -9,9 +9,9 @@ pipeline {
 					rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q restAPI $USER@$SERVER:
 					'''
 					sh '''
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker stop flask && sudo docker rm flask"
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "cd restAPI && sudo docker build -t restapi:latest . && sudo docker run -t -d -p 8888:8888 --name flask --rm --net=host restapi:latest"
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker system prune -f"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker stop flask && sudo docker rm flask"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "cd restAPI && sudo docker build -t restapi:latest . && sudo docker run -t -d -p 8888:8888 --name flask --rm --net=host restapi:latest"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker system prune -f"
 					# TODO: use docker-compose
 					'''
 				}
@@ -32,7 +32,7 @@ pipeline {
 						cd UI
 						npm i
 						npm run build
-						ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "rm -rf KaraokeSOA"
+						ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "rm -rf KaraokeSOA"
 						rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q dist/KaraokeSOA $USER@$SERVER:
 						rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q nginx.conf Dockerfile $USER@$SERVER:KaraokeSOA
 						'''
@@ -44,10 +44,10 @@ pipeline {
 			steps {
 				withCredentials([string(credentialsId: 'webapp-server', variable: 'SERVER'), string(credentialsId: 'webapp-server-username', variable: 'USER')]) {
 					sh '''
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker stop webapp && sudo docker rm webapp"
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "cd KaraokeSOA && sudo docker build -t webapp:latest ."
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker run -t -d -p 80:80 --name webapp webapp:latest"
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker system prune -f"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker stop webapp && sudo docker rm webapp"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "cd KaraokeSOA && sudo docker build -t webapp:latest ."
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker run -t -d -p 80:80 --name webapp webapp:latest"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker system prune -f"
 					'''
 				}
 			}
