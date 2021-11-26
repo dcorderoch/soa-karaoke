@@ -46,7 +46,7 @@ pipeline {
 					sh '''
 					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker stop webapp && sudo docker rm webapp"
 					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "cd KaraokeSOA && sudo docker build -t webapp:latest ."
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker run -t -d -p 80:80 webapp:latest"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker run -t -d -p 80:80 --name webapp webapp:latest"
 					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER -f "sudo docker system prune -f"
 					'''
 				}
