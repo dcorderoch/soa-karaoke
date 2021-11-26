@@ -10,7 +10,8 @@ pipeline {
 					'''
 					sh '''
 					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker stop flask && sudo docker rm flask"
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "cd restAPI && sudo docker build -t restapi:latest . && sudo docker run -t -d -p 8888:8888 --name flask --rm --net=host restapi:latest"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "cd restAPI && sudo docker build -t restapi:latest . "
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker run -t -d -p 8888:8888 --name flask --net=host restapi:latest"
 					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker system prune -f"
 					# TODO: use docker-compose
 					'''
