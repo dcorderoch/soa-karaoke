@@ -16,7 +16,7 @@ pipeline {
 				withCredentials([string(credentialsId: 'webapp-server', variable: 'SERVER'), string(credentialsId: 'webapp-server-username', variable: 'USER')]) {
 					sh '''
 					rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q restAPI $USER@$SERVER:
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker-compose restart restapi"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker-compose up -d restapi"
 					'''
 				}
 			}
@@ -48,7 +48,7 @@ pipeline {
           cd UI
           rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q dist/KaraokeSOA $USER@$SERVER:
           rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q nginx.conf Dockerfile $USER@$SERVER:KaraokeSOA
-					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker-compose restart webapp"
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker-compose up -d webapp"
           '''
 				}
 			}
