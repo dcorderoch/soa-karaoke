@@ -5,7 +5,7 @@ services:
     container_name: webapp
     image: webapp:latest
     build:
-      context: UI
+      context: KaraokeSOA
       dockerfile: Dockerfile
     network_mode: host
     ports:
