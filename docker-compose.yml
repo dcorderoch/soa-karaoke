@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  web:
+    container_name: webapp
+    image: webapp:latest
+    build:
+      context: UI
+      dockerfile: Dockerfile
+    network_mode: host
+    ports:
+      - 80:80
+  flask:
+    container_name: flask
+    image: restapi:latest
+    build:
+      context: restAPI
+      dockerfile: Dockerfile
+    network_mode: host
+    ports:
+      - 8888:8888
