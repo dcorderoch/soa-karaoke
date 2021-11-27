@@ -2,6 +2,16 @@ pipeline {
 	agent any
 
 	stages {
+		stage ('soa_build_from_github - DOCKER DEPLOY CODE') {
+			steps {
+				withCredentials([string(credentialsId: 'webapp-server', variable: 'SERVER'), string(credentialsId: 'webapp-server-username', variable: 'USER')]) {
+					sh '''
+					rsync -e "ssh -i ~/.ssh/id_ed25519" -rt -q docker-compose.yml $USER@$SERVER:
+					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker-compose restart restapi"
+					'''
+				}
+			}
+		}
 		stage ('soa_build_from_github - REST DEPLOY CODE') {
 			steps {
 				withCredentials([string(credentialsId: 'webapp-server', variable: 'SERVER'), string(credentialsId: 'webapp-server-username', variable: 'USER')]) {
@@ -49,42 +59,6 @@ pipeline {
 					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker-compose down"
 					ssh -i ~/.ssh/id_ed25519 $USER@$SERVER "sudo docker-compose up -d"
           '''
-				}
-			}
-		}
-		stage ('soa_build_from_github - REST tests') {
-			steps {
-				withCredentials([string(credentialsId: 'webapp-external-ip', variable: 'DEPLOYIP')]) {
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/name/null | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/artist/null | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/album/null | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/name/doppelkupplungsgetriebe | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
-					sh '''
-					result=$(curl -s http://$DEPLOYIP:8888/songs/filter/name/kingofthehill | jq .songs)
-					if ! [ "$result" = "[]" ]; then
-					return 1
-					fi
-					'''
 				}
 			}
 		}
