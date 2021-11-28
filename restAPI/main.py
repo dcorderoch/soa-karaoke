@@ -564,9 +564,13 @@ def update_addFArtist(username):
 @app.route("/getinfo/<artist>", methods=["GET"])
 @cross_origin()
 def getInfo(artist):
-    URL = "http://theaudiodb.com/api/v1/json/1/search.php?s=" + artist
-    r = requests.get(url=URL)
-    return jsonify({"data": r.json()})
+    try:
+        URL = "http://theaudiodb.com/api/v1/json/2/search.php?s=" + artist
+        r = requests.get(url=URL)
+        return jsonify({"data": r.json()})
+    except Exception as exc:
+        print(r)
+        return jsonify({"error":"theaudiodb.com is disabled"})
 
 
 
