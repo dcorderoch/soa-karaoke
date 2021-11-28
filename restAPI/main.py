@@ -18,7 +18,7 @@ import keycloak_utils as kc_utils
 app = Flask(__name__)
 CORS(app)
 app.config["MONGO_DBNAME"] = "SOA"
-app.config["MONGO_URI"] = "mongodb+srv://soa:SOA123@soa.5dx1v.mongodb.net/SOA"
+app.config["MONGO_URI"] = "mongodb+srv://SOA:SOA123@soa.dpxic.mongodb.net/SOA"
 app.secret_key = b"SMZ19"
 
 mongo = PyMongo(app)
