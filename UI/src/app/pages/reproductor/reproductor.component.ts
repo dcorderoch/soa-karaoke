@@ -8,6 +8,8 @@ import { SongService } from "src/app/services/song.service";
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
 import { RecognitionService } from "src/app/services/recognition.service";
+import { SongName } from "src/app/models/song";
+import { Artist } from "src/app/models/artist";
 
 import LRC from "lrc.js";
 export interface LineLRC {
@@ -39,6 +41,8 @@ export class ReproductorComponent implements OnInit {
   audio = new Audio();
   song: any = "";
   points = 0;
+  songName = new SongName();
+  artist = new Artist();
 
   constructor(
     public songService: SongService,
@@ -58,6 +62,11 @@ export class ReproductorComponent implements OnInit {
     this.id = this.activatedRoute.snapshot.paramMap.get("id");
     this.songService.getSong(this.id).subscribe((res) => {
       this.song = res.json().result;
+      this.songName.song = this.song.name;
+      this.songService.getArtistInfo(this.song.artist).subscribe((res) => {
+        this.artist = res.json().data.artists[0];
+      });
+      this.songService.updateLastSong(user.username, this.songName).subscribe();
       this.audio = new Audio(this.song.file);
       this.http.get(this.song.lyric).subscribe((response: Response) => {
         this.processLyrics(response.text());
@@ -74,6 +83,7 @@ export class ReproductorComponent implements OnInit {
         );
       });
     });
+    this.songService.updateSongsCompleted(user.username).subscribe();
   }
 
   public processLyrics(lrcText: any) {

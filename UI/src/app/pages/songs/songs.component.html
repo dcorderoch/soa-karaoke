@@ -1,6 +1,6 @@
 <div class="example-viewport">
   <div class="session">
-    {{user.username}}
+    {{ user.username }}
     <a (click)="logout()" class="edit" mat-button
       ><mat-icon
         color="primary"
@@ -10,6 +10,39 @@
         logout
       </mat-icon></a
     >
+  </div>
+  <div class="dashboard">
+    <div>
+      Veces que he hecho login: {{ dashboard.timesConnected }}<br /><br />
+      Última canción reproducida: {{ dashboard.lastSong }}<br /><br />
+      Canciones escuchadas: {{ dashboard.songsCompleted }}
+    </div>
+    <div class="favoritos">
+      <div fxLayout="row">
+        <p>
+          <strong>Artistas Favoritos:</strong> {{ dashboard.favoriteArtist }}
+        </p>
+        <mat-icon
+          (click)="addArtist(dashboard.favoriteArtist, user.username)"
+          aria-hidden="false"
+          aria-label="Example home icon"
+        >
+          add
+        </mat-icon>
+      </div>
+      <div fxLayout="row">
+        <p>
+          <strong>Canciones Favoritas:</strong> {{ dashboard.favoriteSongs }}
+        </p>
+        <mat-icon
+          (click)="addSong(dashboard.favoriteSongs, user.username)"
+          aria-hidden="false"
+          aria-label="Example home icon"
+        >
+          add
+        </mat-icon>
+      </div>
+    </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="end center">
     <mat-radio-group class="example-filter" aria-label="Select an option">
@@ -76,7 +109,7 @@
   <div *ngIf="!songs" class="spin">
     <img src="../../assets/loading.gif" alt="load image" />
   </div>
-  <div fxLayout="row wrap">
+  <div fxLayout="row wrap" class="scroll">
     <mat-card class="example-card" fxLayout="column" *ngFor="let song of songs">
       <div fxLayout="row" *ngIf="user.role == 'premiumUser'">
         <a (click)="edit(song.name)" class="edit" mat-button
@@ -99,7 +132,7 @@
         alt="Song"
       />
       <mat-card-content (click)="viewSong(song.name)">
-        <p>{{song.name}} - {{song.artist}}</p>
+        <p>{{ song.name }} - {{ song.artist }}</p>
       </mat-card-content>
     </mat-card>
   </div>

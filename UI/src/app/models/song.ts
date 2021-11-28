@@ -6,10 +6,17 @@ export class Song {
   lyric: any;
 
   constructor() {
-    this.name = '';
-    this.file = '';
-    this.album = '';
-    this.artist = '';
-    this.lyric = '';
+    this.name = "";
+    this.file = "";
+    this.album = "";
+    this.artist = "";
+    this.lyric = "";
+  }
+}
+
+export class SongName {
+  song: string;
+  constructor() {
+    this.song = "";
   }
 }

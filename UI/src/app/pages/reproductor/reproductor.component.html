@@ -48,6 +48,15 @@
         <h2 style="color: rgba(163, 73, 164)">Score: {{ points }}</h2>
       </div>
     </mat-card-content>
+    <div class="logContainer2">
+      <h1>{{ song.artist }}</h1>
+      <img
+        src="{{ artist.strArtistThumb }}"
+        width="250"
+        style="display: block; margin: auto"
+      />
+      <p>{{ artist.strBiographyES }}</p>
+    </div>
   </div>
 </div>
 <app-player-speech

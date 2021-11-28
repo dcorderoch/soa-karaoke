@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { Song } from 'src/app/models/song';
-import { SongService } from 'src/app/services/song.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Validators, FormGroup, FormControl } from "@angular/forms";
+import Swal from "sweetalert2";
+import { Song } from "src/app/models/song";
+import { SongService } from "src/app/services/song.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.css'],
+  selector: "app-add",
+  templateUrl: "./add.component.html",
+  styleUrls: ["./add.component.css"],
 })
 export class AddComponent implements OnInit {
   infForm = new FormGroup({});
@@ -22,11 +22,11 @@ export class AddComponent implements OnInit {
   constructor(public songService: SongService, private router: Router) {}
 
   ngOnInit(): void {
-    let user = JSON.parse(localStorage.getItem('user') || '{}');
+    let user = JSON.parse(localStorage.getItem("user") || "{}");
     if (!user) {
-      this.router.navigate(['login']);
-    } else if (user.role != 'premiumUser') {
-      this.router.navigate(['songs']);
+      this.router.navigate(["login"]);
+    } else if (user.role == "premiumUser") {
+      this.router.navigate(["songs"]);
     }
     this.infForm = new FormGroup({
       name: new FormControl(this.name, [
@@ -44,7 +44,7 @@ export class AddComponent implements OnInit {
     });
   }
   public noWhitespaceValidator(control: FormControl) {
-    const isWhitespace = (control.value || '').trim().length === 0;
+    const isWhitespace = (control.value || "").trim().length === 0;
     const isValid = !isWhitespace;
     return isValid ? null : { whitespace: true };
   }
@@ -54,21 +54,21 @@ export class AddComponent implements OnInit {
     this.song.album = this.infForm.value.album;
     this.song.artist = this.infForm.value.artista;
     Swal.fire({
-      title: 'Subiendo archivos',
-      text: 'Por favor espere',
+      title: "Subiendo archivos",
+      text: "Por favor espere",
       showCloseButton: false,
       showCancelButton: false,
-      background: '#f1f2f3',
-      imageUrl: '../../assets/loading.gif',
+      background: "#f1f2f3",
+      imageUrl: "../../assets/loading.gif",
       width: 300,
     });
     this.songService.newSong(this.song).subscribe(
       (data) => {
-        Swal.fire({ icon: 'success', title: 'Registro exitoso' });
-        this.router.navigate(['songs']);
+        Swal.fire({ icon: "success", title: "Registro exitoso" });
+        this.router.navigate(["songs"]);
       },
       (error) => {
-        Swal.fire({ icon: 'error', title: 'Registro fallido' });
+        Swal.fire({ icon: "error", title: "Registro fallido" });
       }
     );
   }
