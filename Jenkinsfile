@@ -29,7 +29,7 @@ pipeline {
 				nvmIoJsOrgMirror: 'https://iojs.org/dist',
 				nvmNodeJsOrgMirror: 'https://nodejs.org/dist') {
 					withCredentials([string(credentialsId: 'webapp-external-ip', variable: 'DEPLOYIP')]) {
-						sh '''cd UI && sed -i -e s%172.19.232.88%${DEPLOYIP}%g src/app/services/auth.service.ts && cd ..'''
+						sh '''cd UI && sed -i -e s%172.21.224.1%${DEPLOYIP}%g src/app/services/auth.service.ts && cd ..'''
 					}
 					withCredentials([string(credentialsId: 'webapp-server', variable: 'SERVER'), string(credentialsId: 'webapp-server-username', variable: 'USER')]) {
 						sh '''
