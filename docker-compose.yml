@@ -11,10 +11,6 @@ services:
     ports:
       - 80:80
       - 443:443
-    restart: always
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/etc/www/certbot
   restapi:
     container_name: restapi
     image: restapi:latest
